@@ -1,0 +1,230 @@
+{% extends 'public/layout.twig' %}
+{% block content %}
+
+    {{ include('public/includes/bottomNav.twig') }}
+    <style>
+        .home-content {
+            transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out;
+            transform: translateX(100%);
+            opacity: 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1;
+        }
+
+        .home-content.active {
+            transform: translateX(0);
+            opacity: 1;
+            z-index: 2;
+            position: relative;
+        }
+
+        .home-content.exit {
+            transform: translateX(-100%);
+            opacity: 0;
+            z-index: 1;
+        }
+    </style>
+
+    <!-- home-content -->
+    <div class="d-block  zoom-in" id="home-content" style="margin: 0rem 0 3rem 0 !important;">
+{#        <div class="mt-4 mb-2 d-flex justify-content-between align-items-center">#}
+{#            <div class="flex-grow-1 text-center">#}
+{#                <span class="navbar-brand mb-0 h4 fw-bold">Home</span>#}
+{#                <img src="{{ env.APP_URL }}uploads/settings/{{ siteLogo }}" alt="PayCash Logo" class=" w-75">#}
+{#            </div>#}
+{#            <i class="bi bi-bell me-3"></i>#}
+{#        </div>#}
+        <!-- Navigation Bar -->
+        <nav class="navbar navbar-light topNav py-0">
+            <div class="container-fluid p-0" style="margin: 2px 0 2px 0">
+                <div class="row w-100 mx-0 g-0">
+                    <div class="col-12 d-flex justify-content-between p-0">
+                        <a href="#" id="btn-deposit" class="nav-link active home-nav-btn text-center flex-grow-1 fw-bold" data-target="deposit">Deposit</a>
+                        <a href="#" id="btn-send" class="nav-link home-nav-btn text-center flex-grow-1 fw-bold" data-target="send">Send</a>
+                        <a href="#" id="btn-cashOut" class="nav-link home-nav-btn text-center flex-grow-1 fw-bold" data-target="cashOut">CashOut</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Sections -->
+        <div class="container mt-4 home-content" id="deposit">
+            <!-- Balance Card -->
+            <div class="balance-card justify-content-between mb-5 d-flex">
+                <div class="d-block text-color">
+                    <h5>Available Balance</h5>
+                    <h1>300 USD</h1>
+                    <p>Value In Euro: 1370</p>
+                </div>
+                <i class="bi bi-pass fs-40 lightGreen" style="margin-top: 70px"></i>
+            </div>
+
+            <!-- Deposit Section -->
+            <div class="deposit-content">
+                <h1 class="text-center mb-5 fw-bold">Deposit</h1>
+                <div class="mb-3 input-group h-60" style="margin-top: 70px">
+                    <span class="input-group-text "><i class="bi bi-coin fs-2"></i></span>
+                    <input type="text" style="border-left: none" class="form-control input-opacity" placeholder="Deposit Amount" />
+                </div>
+                <div class="mb-5">
+
+                    <select class="form-select form-control h-60 input-opacity">
+                        <option selected>Select Mode Of Deposit</option>
+                        <option value="1">Coin Base</option>
+{#                        <option value="2">Card Payment</option>#}
+{#                        <option value="3">Mobile Wallet</option>#}
+                    </select>
+                </div>
+                <div class="text-center ">
+                    <button class="btn deposit-button w-75 text-color">Deposit</button>
+                </div>
+
+            </div>
+        </div>
+        <div class="container mt-4 home-content d-none" id="send">
+            <!-- Balance Card -->
+            <div class="balance-card justify-content-between mb-5 d-flex">
+                <div class="d-block text-color">
+                    <h5>Available Balance</h5>
+                    <h1>300 USD</h1>
+                    <p>Value In Euro: 1370</p>
+                </div>
+                <i class="bi bi-pass fs-40 lightGreen" style="margin-top: 70px"></i>
+            </div>
+
+            <!-- Deposit Section -->
+            <div class="deposit-content">
+                <h1 class="text-center mb-5 fw-bold">Send</h1>
+                <div class="mb-3 input-group h-60" style="margin-top: 70px">
+                    <span class="input-group-text "><i class="bi bi-coin fs-2"></i></span>
+                    <input type="text" style="border-left: none" name="user_name" class="form-control input-opacity" placeholder="UserName" />
+                </div>
+                <div class="mb-5 input-group h-60">
+                    <span class="input-group-text "><i class="bi bi-coin fs-2"></i></span>
+                    <input type="number" style="border-left: none" name="amount" class="form-control input-opacity" placeholder="EnterAmount" />
+                </div>
+
+
+                <div class="text-center ">
+                    <button class="btn deposit-button w-75 text-color">TRANSFER NOW</button>
+                </div>
+
+            </div>
+        </div>
+        <div class="container mt-4 home-content d-none" id="cashOut">
+            <!-- Balance Card -->
+            <div class="balance-card justify-content-between mb-5 d-flex">
+                <div class="d-block text-color">
+                    <h5>Available Balance</h5>
+                    <h1>300 USD</h1>
+                    <p>Value In Euro: 1370</p>
+                </div>
+                <i class="bi bi-pass fs-40 lightGreen" style="margin-top: 70px"></i>
+            </div>
+
+            <!-- Deposit Section -->
+            <div class="deposit-content" >
+                <h1 class="text-center mb-5 fw-bold">Cash Out</h1>
+                <div class="mb-3 input-group h-60" style="margin-top: 70px">
+                    <span class="input-group-text "><i class="bi bi-coin fs-2"></i></span>
+                    <input type="text" style="border-left: none" name="user_name" class="form-control input-opacity" placeholder="UserName" />
+                </div>
+                <div class="mb-5 input-group h-60">
+                    <span class="input-group-text "><i class="bi bi-coin fs-2"></i></span>
+                    <input type="text" style="border-left: none" name="amount" class="form-control input-opacity" placeholder="Enter Amount" />
+                </div>
+
+                <div class="text-center ">
+                    <button class="btn deposit-button w-75 text-color">CASHOUT NOW</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script>
+
+        // Function to toggle the visibility of home content sections (home navbar)
+        function showHomeSection(sectionId) {
+            // Hide all home content sections
+            document.querySelectorAll('.home-content').forEach((section) => {
+                section.classList.add('d-none');
+            });
+
+            // Remove active class from all home navbar buttons
+            document.querySelectorAll('.home-nav-btn').forEach((btn) => {
+                btn.classList.remove('active');
+            });
+
+            // Show the selected section
+            const sectionToShow = document.getElementById(sectionId);
+            if (sectionToShow) {
+                sectionToShow.classList.remove('d-none');
+            }
+
+            // Add active class to the clicked button
+            const activeBtn = document.querySelector(`.home-nav-btn[data-target="${sectionId}"]`);
+            if (activeBtn) {
+                activeBtn.classList.add('active');
+            }
+        }
+        // Add event listeners to home navbar buttons
+        document.querySelectorAll('.home-nav-btn').forEach((btn) => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetSection = btn.getAttribute('data-target');
+                showHomeSection(targetSection);
+            });
+        });
+
+    </script>
+    <script>
+        // Function to handle animation and visibility toggling
+        function showHomeSection(sectionId) {
+            const allSections = document.querySelectorAll('.home-content');
+            const currentSection = document.querySelector('.home-content.active');
+            const newSection = document.getElementById(sectionId);
+
+            // Exit the current section if exists
+            if (currentSection) {
+                currentSection.classList.remove('active');
+                currentSection.classList.add('exit');
+
+                // Wait for the exit animation to complete before hiding the element
+                setTimeout(() => {
+                    currentSection.classList.add('d-none');
+                    currentSection.classList.remove('exit');
+                }, 400); // Matches the CSS transition duration
+            }
+
+            // Activate the new section
+            if (newSection) {
+                newSection.classList.remove('d-none');
+                newSection.classList.add('active');
+            }
+
+            // Update the active button
+            document.querySelectorAll('.home-nav-btn').forEach((btn) => {
+                btn.classList.remove('active');
+            });
+
+            const activeBtn = document.querySelector(`.home-nav-btn[data-target="${sectionId}"]`);
+            if (activeBtn) {
+                activeBtn.classList.add('active');
+            }
+        }
+
+        // Attach event listeners to navigation buttons
+        document.querySelectorAll('.home-nav-btn').forEach((btn) => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetSection = btn.getAttribute('data-target');
+                showHomeSection(targetSection);
+            });
+        });
+    </script>
+
+
+{% endblock %}

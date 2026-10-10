@@ -1,0 +1,310 @@
+{% extends 'admin/master.twig' %}
+{% block content %}
+    <style>
+        .fs-1 {
+            font-size: 2.5rem !important;
+        }
+    </style>
+    <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+        <div class="toolbar" id="kt_toolbar">
+            <div id="kt_toolbar_container" class="container-fluid d-flex flex-stack">
+                <div data-kt-swapper="true" data-kt-swapper-mode="prepend"
+                     data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}"
+                     class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
+                    <h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1">All Faqs</h1>
+                    <span class="h-20px border-gray-300 border-start mx-4"></span>
+                    <ul class="breadcrumb breadcrumb-separatorless fw-bold fs-7 my-1">
+                        <li class="breadcrumb-item">
+                            <span class="bullet bg-gray-300 w-5px h-2px"></span>
+                        </li>
+                        <li class="breadcrumb-item text-muted">
+                            Faqs
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="post d-flex flex-column-fluid" id="kt_post">
+            <div id="kt_content_container" class="container-xxl">
+                <div class="card card-flush">
+                    <div class="card-header pt-8">
+                        <div class="card-title">
+                            <div class="d-flex align-items-center position-relative my-1">
+                                <div class="d-flex align-items-center position-relative my-1">
+                                    <input type="text" data-kt-docs-table-filter="search" class="form-control form-control-solid w-250px ps-15" placeholder="Search Category"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-toolbar">
+                            <div class="d-flex justify-content-end" data-kt-filemanager-table-toolbar="base">
+                                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#kt_modal_new_target">
+                                    <span class="svg-icon svg-icon-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                            <path opacity="0.3" d="M10 4H21C21.6 4 22 4.4 22 5V7H10V4Z" fill="currentColor"/>
+                                            <path d="M10.4 3.60001L12 6H21C21.6 6 22 6.4 22 7V19C22 19.6 21.6 20 21 20H3C2.4 20 2 19.6 2 19V4C2 3.4 2.4 3 3 3H9.20001C9.70001 3 10.2 3.20001 10.4 3.60001ZM16 11.6L12.7 8.29999C12.3 7.89999 11.7 7.89999 11.3 8.29999L8 11.6H11V17C11 17.6 11.4 18 12 18C12.6 18 13 17.6 13 17V11.6H16Z" fill="currentColor"/>
+                                            <path opacity="0.3" d="M11 11.6V17C11 17.6 11.4 18 12 18C12.6 18 13 17.6 13 17V11.6H11Z" fill="currentColor"/>
+                                        </svg>
+                                    </span>
+                                    Add New
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <!--begin::Table-->
+                        <table id="kt_faqs_table" class="table align-middle table-row-dashed fs-6 gy-5">
+                            <thead>
+                            <tr class="text-start text-muted fw-bolder fs-7 text-uppercase gs-0">
+                                <th class="min-w-50px">Name</th>
+                                <th class="min-w-125px">Question</th>
+{#                                <th class="min-w-125px">Answer</th>#}
+                                <th class="min-w-125px">Action</th>
+                            </tr>
+                            </thead>
+                            <tbody class="text-gray-600 fw-bold">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="modal fade" id="kt_modal_new_target" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered mw-650px">
+            <div class="modal-content rounded">
+                <div class="modal-header pb-0 border-0 justify-content-end">
+                    <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                        <span class="svg-icon svg-icon-1">
+								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"><rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1" transform="rotate(-45 6 17.3137)" fill="currentColor"/><rect x="7.41422" y="6" width="16" height="2" rx="1" transform="rotate(45 7.41422 6)" fill="currentColor"/></svg>
+                        </span>
+                    </div>
+                </div>
+                <div class="modal-body scroll-y px-10 px-lg-15 pt-0 pb-15">
+                    <form id="kt_modal_new_target_form" class="form" method="post">
+                        <div class="mb-13 text-center">
+                            <h1 class="mb-3">Add New Faq</h1>
+                        </div>
+                        <div class="row g-9 mb-8">
+                            <div class="col-md-12 fv-row">
+                                <label class="d-flex align-items-center fs-6 fw-bold mb-2">
+                                    <span class="required">Question</span>
+                                </label>
+                                <input type="text" class="form-control form-control-solid" placeholder="Course Name"
+                                       name="question"/>
+                            </div>
+                            <div class="col-md-12 fv-row">
+                                <label class="fs-6 fw-bold mb-2">Answer</label>
+                                <textarea class="form-control form-control-solid" rows="3" name="answer"
+                                          id="course_description"
+                                          placeholder="Type Course Details"></textarea>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <button type="reset" id="kt_modal_new_target_cancel" class="btn btn-light me-3">Cancel
+                            </button>
+                            <button type="button" id="kt_modal_new_target_submit" onclick="insertFaqs()" class="btn btn-primary">
+                                <span class="indicator-label">Submit</span>
+                                <span class="indicator-progress">Please wait...
+                                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                                </span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="editExampleModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered mw-650px">
+            <div class="modal-content rounded">
+                <div class="modal-header pb-0 border-0 justify-content-end">
+                    <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                        <span class="svg-icon svg-icon-1">
+								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"><rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1" transform="rotate(-45 6 17.3137)" fill="currentColor"/><rect x="7.41422" y="6" width="16" height="2" rx="1" transform="rotate(45 7.41422 6)" fill="currentColor"/></svg>
+                        </span>
+                    </div>
+                </div>
+                <div class="modal-body scroll-y px-10 px-lg-15 pt-0 pb-15">
+                    <form id="editUploadForm" class="form" method="post">
+                        <div class="mb-13 text-center">
+                            <h1 class="mb-3">Update Faq</h1>
+                        </div>
+                        <div class="row g-9 mb-8">
+                            <div class="col-md-12 fv-row">
+                                <label class="d-flex align-items-center fs-6 fw-bold mb-2"><span class="required">Question</span></label>
+                                <input type="hidden" name="id" id="id" class="form-control">
+                                <input type="text" class="form-control form-control-solid" placeholder="Question" name="editQuestion" id="editQuestion"/>
+                            </div>
+                            <div class="col-md-12 fv-row">
+                                <label class="fs-6 fw-bold mb-2">Answer</label>
+                                <textarea class="form-control form-control-solid" rows="3" name="editAnswer" id="editAnswer" placeholder="Type Answer"></textarea>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <button type="reset" id="kt_modal_new_target_cancel" class="btn btn-light me-3">Cancel</button>
+                            <button type="button" id="kt_modal_new_target_submit" onclick="UpdateFaqs()" class="btn btn-primary">
+                                <span class="indicator-label">Update</span>
+                                <span class="indicator-progress">Please wait...
+                                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                                </span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function insertFaqs() {
+            // for (instance in CKEDITOR.instances) {
+            //     CKEDITOR.instances[instance].updateElement();
+            // }
+            var formData = new FormData(document.getElementById("kt_modal_new_target_form"));
+
+            $.ajax({
+                url: "/admin/add/faqs",
+                type: "POST",
+                data: formData,
+                contentType: false,
+                cache: false,
+                processData: false,
+                success: function (response) {
+                    if (response == '1') {
+                        toastr.success('Added Successfully.');
+                        document.getElementById("kt_modal_new_target_form").reset();
+                        $('#kt_modal_new_target').modal('hide');
+                        $('#kt_faqs_table').DataTable().ajax.reload(null, false);
+                    } else if (response == '2') {
+                        toastr.error('Please fill all the fields!');
+                    } else {
+                        showErrorMessage("Something went wrong!");
+                    }
+                    $('#table').DataTable().ajax.reload(null, false);
+                },
+                error: function () {
+                    showErrorMessage("Something went wrong!");
+                },
+                complete: function () {
+                    document.getElementById('kt_modal_new_target_submit').disabled = false;
+                }
+            });
+        }
+
+        function UpdateFaqs() {
+            // for (instance in CKEDITOR.instances) {
+            //     CKEDITOR.instances[instance].updateElement();
+            // }
+            var formData = new FormData(document.getElementById("editUploadForm"));
+
+            $.ajax({
+                url: "/admin/update/faqs",
+                type: "POST",
+                data: formData,
+                contentType: false,
+                cache: false,
+                processData: false,
+                success: function (response) {
+                    if (response == '1') {
+                        toastr.success('Updated Successfully.');
+                        document.getElementById("editUploadForm").reset();
+                        $('#editExampleModal').modal('hide');
+                        $('#kt_faqs_table').DataTable().ajax.reload(null, false);
+                    } else if (response == '2') {
+                        toastr.error('Please fill all the fields!');
+                    } else {
+                        showErrorMessage("Something went wrong!");
+                    }
+                    $('#table').DataTable().ajax.reload(null, false);
+                },
+                error: function () {
+                    showErrorMessage("Something went wrong!");
+                },
+                complete: function () {
+                    document.getElementById('kt_modal_new_target_submit').disabled = false;
+                }
+            });
+        }s
+    </script>
+    <script type="text/javascript">
+            $(document).ready(function () {
+                var csrf_token = $("input[name=csrf]").val();
+                var table = $('#kt_faqs_table').dataTable({
+                    "language": {
+                        processing: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span> '
+                    },
+                    "responsive": true,
+                    "bProcessing": true,
+                    "sAjaxSource": "/admin/api?page_name=view_allFaqs&csrf="+csrf_token,
+                    "bPaginate": true,
+                    "sPaginationType": "full_numbers",
+                    "iDisplayLength": 10,
+                    "aoColumns": [
+                        {mData: 'ids'},
+                        { data: 'question'},
+                        // { data: 'answer'},
+                        { data: 'action' },
+                    ]
+                });
+                $('#search').on('keyup', function() {
+                    $('#kt_faqs_table').DataTable().search(this.value).draw();
+                });
+            });
+
+            $('body').on('click', '.edit', function () {
+                var id = $(this).data('id');
+
+                $('#editUploadForm').trigger("reset");
+
+                $.ajax({
+                    url: "/admin/view/edit/faq",
+                    type: "POST",
+                    data: {
+                        edit: 1,
+                        id: id,
+                    },
+                    cache: false,
+                    success: function (dataResult) {
+
+                        var dataResult = JSON.parse(dataResult);
+                        console.log(dataResult);
+
+                        $('#editQuestion').val(dataResult[0].question);
+                        $('#editAnswer').val(dataResult[0].answer);
+
+                        $('input[name=id]').val(dataResult[0].id);
+                        // CKEDITOR.instances['editAnswer'].setData(atob(dataResult[0].answer));
+                    }
+                });
+            });
+            function deleteUser(deleteid) {
+                $(this).html('<i class="fa fa-circle-o-notch fa-spin"></i> loading...');
+                var csrf_token = $("input[name=csrf]").val();
+                $.ajax({
+                    url: '/admin/api',
+                    type: 'GET', data: {
+                        id: deleteid,
+                        page_name: "delete",
+                        table_name: "faqs",
+                        csrf: csrf_token
+                    }, success: function (data) {
+                        if (data == 1) {
+                            toastr.info('Successfully deleted.');
+                            $('#kt_faqs_table').DataTable().ajax.reload(null, false);
+                        } else {
+                            toastr.error('Something went wrong.');
+
+                        }
+                    }
+                });
+            }
+        </script>
+{% endblock %}

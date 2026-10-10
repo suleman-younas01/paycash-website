@@ -1,0 +1,456 @@
+{% extends 'public/layout.twig' %}
+{% block content %}
+    <style>
+        span.select2.select2-container.select2-container--default{
+            width: 100% !important;
+        }
+        .small-swal {
+            width: 80% !important;  /* Reduce alert width */
+            font-size: 14px !important; /* Make text smaller */
+            padding: 15px !important; /* Reduce padding */
+        }
+
+    </style>
+    {{ include('public/includes/bottomNav.twig') }}
+
+    <!-- home-content -->
+    <div class="d-block  zoom-in" id="home-content" style="margin: 0rem 0 3rem 0 !important;">
+        <div class="logo text-center my-4">
+            <img src="{{ env.APP_URL }}uploads/settings/{{ siteLogo }}" alt="PayCash Logo" class=" w-50">
+        </div>
+        {#        <div class="mt-4 mb-2 d-flex justify-content-between align-items-center">#}
+        {#            <div class="flex-grow-1 text-center">#}
+        {#                <span class="navbar-brand mb-0 h4 fw-bold">Home</span>#}
+        {#            </div>#}
+        {#            <i class="bi bi-bell me-3"></i>#}
+        {#        </div>#}
+        <!-- Navigation Bar -->
+        <nav class="navbar navbar-light topNav py-0">
+            <div class="container-fluid p-0" style="margin: 2px 0 2px 0">
+                <div class="row w-100 mx-0 g-0">
+                    <div class="col-12 d-flex justify-content-between p-0">
+                        <a href="#" id="btn-deposit" class="nav-link active home-nav-btn text-center flex-grow-1 fw-bold" data-target="deposit">Deposit</a>
+                        <a href="#" id="btn-send" class="nav-link home-nav-btn text-center flex-grow-1 fw-bold" data-target="send">Send</a>
+                        <a href="#" id="btn-cashOut" class="nav-link home-nav-btn text-center flex-grow-1 fw-bold" data-target="cashOut">CashOut</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Deposit Section-->
+        <div class="container mt-4 home-content" id="deposit">
+            <!-- Balance Card -->
+            <div class="balance-card justify-content-between mb-3 d-flex">
+                <div class="d-block text-color">
+                    <h5>Available Balance</h5>
+                    <h1>{{ Balance |number_format(2, '.', ',')}} USD</h1>
+                </div>
+                <i class="bi bi-pass fs-40 lightGreen" style="margin-top: 70px"></i>
+            </div>
+
+            <!-- Deposit Section -->
+            <form id="depositForm">
+                <div class="deposit-content">
+                    <h1 class="text-center mb-2 fw-bold mt-3 mb-3" style="margin-top: 48px !important;">Deposit</h1>
+                    <div class="mb-2">
+                        <select class="form-control" name="asset" id="asset">
+                            <option selected>Select Asset</option>
+                            {% for cryptocurrency in cryptocurrencies %}
+                                <option value="{{ cryptocurrency}}" >
+                                    {{ cryptocurrency|upper}}
+                                </option>
+                            {% endfor %}
+
+                            {#                        <option value="2">Card Payment</option>#}
+                            {#                        <option value="3">Mobile Wallet</option>#}
+                        </select>
+                    </div>
+                    <div class="mb-3 input-group h-60">
+                        <input type="text" style="border-left: none" class="form-control input-opacity" id="amount" name="amount" placeholder="Deposit Amount" />
+                    </div>
+                    <div class="mb-5">
+
+                        <select class="form-select form-control h-60 input-opacity" name="mode" id="mode">
+                            <option selected>Select Mode Of Deposit</option>
+                            <option value="coin_base" >Coin Base</option>
+                        </select>
+                    </div>
+                    <div class="text-center ">
+                        <button type="button" id="depositBTN" onclick="depositBalance()" class="btn deposit-button w-75 text-color">Deposit</button>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+
+        {#        Send Section#}
+        <div class="container mt-4 home-content d-none" id="send">
+            <!-- Balance Card -->
+            <div class="balance-card justify-content-between mb-5 d-flex">
+                <div class="d-block text-color">
+                    <h5>Available Balance</h5>
+                    <h1>{{ Balance |number_format(2, '.', ',')}} USD</h1>
+                </div>
+                <i class="bi bi-pass fs-40 lightGreen" style="margin-top: 70px"></i>
+            </div>
+
+            <!-- Deposit Section -->
+            <div class="deposit-content">
+                <h1 class="text-center mb-2 fw-bold mt-3 mb-3">Send</h1>
+                <span class="text-success text-center">Enter receiver user email</span>
+                <div class="mb-3 input-group h-60" >
+                    <span class="input-group-text "><i class="bi bi-envelope-at fs-2"></i></span>
+                    <input type="text" style="border-left: none" id="email" name="email" class="form-control input-opacity" placeholder="Email" />
+                </div>
+                <div class="mb-5 input-group h-60">
+                    <span class="input-group-text "><i class="bi bi-coin fs-2"></i></span>
+                    <input type="number" style="border-left: none" name="transfer_amount" id="transfer_amount" class="form-control input-opacity" placeholder="Amount" />
+                </div>
+                <div class="text-center ">
+                    <button class="btn deposit-button w-75 text-color" id="transferBTN" onclick="transferNow()">TRANSFER NOW</button>
+                </div>
+
+            </div>
+        </div>
+
+        {#        Cash Out Section#}
+        {# Cash Out Section #}
+        <div class="container mt-4 home-content d-none" id="cashOut">
+            <!-- Balance Card -->
+            <div class="balance-card justify-content-between mb-5 d-flex">
+                <div class="d-block text-color">
+                    <h5>Available Balance</h5>
+                    <h1>{{ Balance |number_format(2, '.', ',') }} USD</h1>
+                </div>
+                <i class="bi bi-pass fs-40 lightGreen" style="margin-top: 70px"></i>
+            </div>
+
+            <!-- Withdraw Section -->
+            <div class="deposit-content">
+                <h1 class="text-center mb-5 fw-bold">Cash Out</h1>
+
+                <form method="post" action="/user/withdraw" id="withdrawForm">
+                    <input type="hidden" name="csrf" value="{{ csrf }}">
+
+                    <!-- To Wallet Address -->
+                    <div class="mb-3 input-group h-60">
+                        <span class="input-group-text"><i class="bi bi-wallet2 fs-2"></i></span>
+                        <input type="text" name="withdraw_to_wallet_address" class="form-control input-opacity" placeholder="Wallet Address (EVM Address)" required />
+                    </div>
+
+                    <!-- Amount -->
+                    <div class="mb-3 input-group h-60">
+                        <span class="input-group-text"><i class="bi bi-currency-dollar fs-2"></i></span>
+                        <input type="number" name="withdraw_amount" step="0.01" class="form-control input-opacity" placeholder="Enter Amount in USD" required />
+                    </div>
+
+                    <!-- Currency Select -->
+                    <div class="mb-5 input-group h-60">
+                        <span class="input-group-text"><i class="bi bi-currency-exchange fs-2"></i></span>
+                        <select name="withdraw_currency" class="form-select input-opacity" required>
+                            <option value="">Select Currency</option>
+                            <option value="usdc">USDC</option>
+                            <option value="eth">ETH</option>
+                            <option value="weth">WETH</option>
+                        </select>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="text-center">
+                        <button type="button" id="cashoutBTN" onclick="cashoutNow()" class="btn deposit-button w-75 text-color">CASHOUT NOW</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function cashoutNow() {
+            var to_wallet_address = document.querySelector('input[name="withdraw_to_wallet_address"]').value.trim();
+            var amount = document.querySelector('input[name="withdraw_amount"]').value.trim();
+            var currency = document.querySelector('select[name="withdraw_currency"]').value.trim();
+            var csrf = document.querySelector('input[name="csrf"]').value;
+            console.log(amount);
+            // Validate address
+            if (!to_wallet_address) {
+                notyf.open({
+                    type: 'warning',
+                    message: 'Enter wallet address!',
+                });
+                return;
+            }
+            // Validate amount
+            if (amount === "" || isNaN(amount) || parseFloat(amount) <= 0) {
+                notyf.open({
+                    type: 'warning',
+                    message: 'Please enter a valid amount.',
+                });
+                return;
+            }
+
+            // Validate currency
+            if (!currency) {
+                notyf.open({
+                    type: 'warning',
+                    message: 'Please select a currency.',
+                });
+                return;
+            }
+
+            // Disable button during request
+            $('#cashoutBTN').prop('disabled', true).html('Processing <span class="dot">.</span><span class="dot">.</span><span class="dot">.</span>');
+
+            $.ajax({
+                url: "/user/withdraw",
+                type: "POST",
+                data: {
+                    to_wallet_address: to_wallet_address,
+                    amount: amount,
+                    currency: currency,
+                    withdraw_now: 1
+                },
+                cache: false,
+                success: function (data) {
+                    $('#cashoutBTN').prop('disabled', false).html('CASHOUT NOW');
+                    console.log(data);
+                    try {
+                        var response = JSON.parse(data);
+                        if (response.status === "success") {
+                            notyf.open({
+                                type: 'success',
+                                message: response.message,
+                            });
+
+                            // Clear fields
+                            document.querySelector('input[name="withdraw_to_wallet_address"]').value = "";
+                            document.querySelector('input[name="withdraw_amount"]').value = "";
+                            document.querySelector('select[name="withdraw_currency"]').value = "";
+                        } else {
+                            notyf.open({
+                                type: 'error',
+                                message: response.message || 'Something went wrong.',
+                            });
+                        }
+                    } catch (e) {
+                        notyf.open({
+                            type: 'error',
+                            message: 'Invalid server response.',
+                        });
+                        console.error("Parse error:", e);
+                    }
+                },
+                error: function () {
+                    $('#cashoutBTN').prop('disabled', false).html('CASHOUT NOW');
+                    notyf.open({
+                        type: 'error',
+                        message: 'Network error. Try again later.',
+                    });
+                }
+            });
+        }
+    </script>
+
+    <script>
+        function transferNow() {
+            var amount = document.getElementById("transfer_amount").value.trim();
+            var email = document.querySelector('#email').value;
+            // Validate if asset is selected
+            if (!email) {
+                notyf.open({
+                    type: 'warning',
+                    message: 'Enter Recipient Email!',
+                });
+                return;
+            }
+
+            // Validate amount input
+            if (amount === "" || isNaN(amount) || parseFloat(amount) <= 0) {
+                notyf.open({
+                    type: 'warning',
+                    message: 'Please enter a valid amount.',
+                });
+                return;
+            }
+
+            // Validate deposit mode
+            $('#transferBTN').prop('disabled', true).html('Loading <span class="dot">.</span><span class="dot">.</span><span class="dot">.</span>');
+
+            // Send AJAX request
+            $.ajax({
+                url: "/user/transfer",
+                type: "POST",
+                data: {
+                    transfer_now: '1',
+                    email: email,
+                    amount: amount,
+                },
+                cache: false,
+                success: function (data) {
+                    console.log(data);
+                    $('#transferBTN').prop('disabled', false).html('Transfer');
+                    try {
+                        var data = JSON.parse(data); // Parse JSON response
+                        console.log(data);
+                        if (data.status === "success") {
+                            notyf.open({
+                                type: 'success',
+                                message: data.message,
+                            });
+
+                            // Clear input fields
+                            document.getElementById("transfer_amount").value = "";
+                            document.getElementById("email").value = "";
+                        } else if (data.status === "error") {
+                            // Clear input fields
+                            document.getElementById("transfer_amount").value = "";
+                            document.getElementById("email").value = "";
+                            notyf.open({
+                                type: 'error',
+                                message: data.message || 'Something went wrong. Please try again.',
+                            });
+                        }
+
+                    } catch (e) {
+                        notyf.open({
+                            type: 'error',
+                            message: 'Invalid server response. Please try again later.',
+                        });
+                        console.error("Parsing error:", e);
+                    }
+                },
+                error: function () {
+                    notyf.open({
+                        type: 'error',
+                        message: 'Network error. Please try again later.',
+                    });
+                }
+            });
+        }
+</script>
+
+        <script>
+       // Create an instance of Notyf
+        function depositBalance() {
+            var amount = document.getElementById("amount").value.trim(); // Trim to remove whitespace
+            var asset = document.querySelector('#asset').value; // Get selected currency
+            var mode = document.querySelector('#mode').value; // Get selected deposit mode
+            // Validate if asset is selected
+            if (!asset || asset === "Select Crypto") {
+                notyf.open({
+                    type: 'warning',
+                    message: 'Please select an asset.',
+                });
+                return;
+            }
+
+            // Validate amount input
+            if (amount === "" || isNaN(amount) || parseFloat(amount) <= 0) {
+                notyf.open({
+                    type: 'warning',
+                    message: 'Please enter a valid deposit amount.',
+                });
+                return;
+            }
+
+            // Validate deposit mode
+            if (!mode || mode === "Select Mode Of Deposit") {
+                notyf.open({
+                    type: 'warning',
+                    message: 'Please select a mode of deposit.',
+                });
+                return;
+            }
+            $('#depositBTN').prop('disabled', true).html('Loading <span class="dot">.</span><span class="dot">.</span><span class="dot">.</span>');
+
+            // Send AJAX request
+            $.ajax({
+                url: "/user/deposit",
+                type: "POST",
+                data: {
+                    asset: asset,
+                    amount: amount,
+                    mode: mode,
+                },
+                cache: false,
+                success: function (data) {
+                    console.log(data);
+                    $('#depositBTN').prop('disabled', false).html('Deposit');
+                    try {
+                        var data = JSON.parse(data); // Parse JSON response
+                        console.log(data);
+                        if (data.status === "success") {
+                            notyf.open({
+                                type: 'success',
+                                message: data.message || 'Deposit request submitted successfully!',
+                            });
+
+                            // Clear input fields
+                            document.getElementById("amount").value = "";
+                            document.getElementById("asset").selectedIndex = 0;
+                            document.getElementById("mode").selectedIndex = 0;
+                            window.location.href = "/user/deposit/result/"+data.transaction_id;
+                        } else if (data.status === "error") {
+                            notyf.open({
+                                type: 'error',
+                                message: data.message || 'Something went wrong. Please try again.',
+                            });
+                        }
+
+                    } catch (e) {
+                        notyf.open({
+                            type: 'error',
+                            message: 'Invalid server response. Please try again later.',
+                        });
+                        console.error("Parsing error:", e);
+                    }
+                },
+                error: function () {
+                    notyf.open({
+                        type: 'error',
+                        message: 'Network error. Please try again later.',
+                    });
+                }
+            });
+        }
+
+    </script>
+
+
+    <script>
+        $(document).ready(function() {
+            $('.js-example-basic-single').select2();
+        });
+        // Function to toggle the visibility of home content sections (home navbar)
+        function showHomeSection(sectionId) {
+            // Hide all home content sections
+            document.querySelectorAll('.home-content').forEach((section) => {
+                section.classList.add('d-none');
+            });
+
+            // Remove active class from all home navbar buttons
+            document.querySelectorAll('.home-nav-btn').forEach((btn) => {
+                btn.classList.remove('active');
+            });
+
+            // Show the selected section
+            const sectionToShow = document.getElementById(sectionId);
+            if (sectionToShow) {
+                sectionToShow.classList.remove('d-none');
+            }
+
+            // Add active class to the clicked button
+            const activeBtn = document.querySelector(`.home-nav-btn[data-target="${sectionId}"]`);
+            if (activeBtn) {
+                activeBtn.classList.add('active');
+            }
+        }
+        // Add event listeners to home navbar buttons
+        document.querySelectorAll('.home-nav-btn').forEach((btn) => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetSection = btn.getAttribute('data-target');
+                showHomeSection(targetSection);
+            });
+        });
+    </script>
+{% endblock %}

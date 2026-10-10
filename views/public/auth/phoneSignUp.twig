@@ -1,0 +1,46 @@
+{% extends 'public/layout.twig' %}
+{% block content %}
+
+    <div class="container-fluid">
+        <div class="logo mb-5">
+            <img src="../assets/images/logo.png" alt="PayCash Logo" class=" w-75">
+        </div>
+        <h1 class="mt-5 fw-bold fs-35 " style="color: #000000;">Sign Up</h1>
+        <p class="login-text">Add your info to Sign Up</p>
+        <form>
+            <div class="mb-3 d-flex">
+                <input type="text" class="form-control me-1" id="first_name" name="first_name" placeholder=" First Name" required>
+                <input type="text" class="form-control ms-1" id="last_name" name="last_name" placeholder=" Last Name" required>
+            </div>
+            <div class="mb-3">
+                <input type="text" class="form-control" id="user_name" name="user_name" placeholder="Enter your User Name" required>
+            </div>
+            <div class="mb-3">
+                <input type="tel" class="form-control" id="number" name="number" placeholder="Enter your Phone" required>
+            </div>
+            <!--        <div class="mb-3">-->
+            <!--            <input type="email" class="form-control" id="email" name="email" placeholder="Enter your Email" required>-->
+            <!--        </div>-->
+
+            <div class="mb-3">
+                <input type="password" class="form-control" id="password" placeholder="Enter your Password" required>
+            </div>
+            <!--        <div class="mb-3">-->
+            <!--            <input type="password" class="form-control" id="confirm_password" placeholder="Enter your Confirm Password" required>-->
+            <!--        </div>-->
+
+            <h5 class="mt-5 mb-0 fs-17">By continuing you agree to accept our</h5>
+            <span><a href="" class="text-decoration-none fw-bold fs-15" style="color: #000000;">
+                Privacy Policy & Terms & Condition
+            </a>
+        </span><br>
+
+            <a href="#"><button class=" email-login-btn">Sign Up</button></a>
+        </form>
+        <div class="text-center mt-3 mb-3">
+            <span class="fs-17" style="color: #000000;">Already have an account?<a href="numberSignIn.php" class="text-decoration-none fw-bold" style="color: #000000;"> Signin</a></span>
+        </div>
+
+    </div>
+
+{% endblock %}

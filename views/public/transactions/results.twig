@@ -1,0 +1,186 @@
+{% extends 'public/layout.twig' %}
+{% block content %}
+
+    {{ include('public/includes/bottomNav.twig') }}
+
+    <!-- Transaction Details Page -->
+    <div id="transaction-details" class="zoom-in" style="margin: 0rem 0 7rem 0 !important; position: relative;">
+
+        <!-- Header with Back Button -->
+        <div class="d-flex bg-dark pt-4 pb-3 justify-content-between align-items-center fixed-top">
+            <!-- Back Button -->
+            <div class="ms-3">
+                <a href="/dashboard" class="text-light text-decoration-none">
+                    <i class="bi bi-arrow-left fs-4"></i>
+                </a>
+            </div>
+            <!-- Title -->
+            <div class="flex-grow-1 text-center">
+                <span class="navbar-brand mb-0 h4 fw-bold text-light">{{ seo.title }}</span>
+            </div>
+            <!-- Notification Icon -->
+            <i class="bi bi-bell me-3 text-light"></i>
+        </div>
+
+        <!-- Transaction Card -->
+        <div class="card mx-3 shadow-lg" style="margin-top: 5.2rem; border-radius: 1rem; background: #ffffff;">
+            <div class="card-body text-center">
+                <!-- Title -->
+                <h5 class="fw-bold mb-4" style="color:#32a851;">Transaction Details</h5>
+
+                <!-- Progress Tracker -->
+                <div class="progress-tracker d-flex justify-content-center align-items-center mb-5">
+                    <div class="step {{ transactionDetail.status == 'pending' ? 'active' : '' }}">
+                        <div class="circle">1</div>
+                        <span>Requested</span>
+                    </div>
+                    <div class="line"></div>
+                    <div class="step {{ transactionDetail.status == 'processing' ? 'active' : '' }}">
+                        <div class="circle">2</div>
+                        <span>Processing</span>
+                    </div>
+                    <div class="line"></div>
+                    <div class="step {{ transactionDetail.status == 'completed' ? 'active' : '' }}">
+                        <div class="circle">3</div>
+                        <span>Completed</span>
+                    </div>
+                </div>
+
+                <!-- QR Code -->
+                <div class="qr-code-container text-center mb-4">
+                    <div class="d-inline-block p-3 bg-light shadow-sm rounded animate__animated animate__fadeIn">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data={{ transactionDetail.transaction_id  }}" alt="QR Code" style="width: 200px; height: 200px;" />
+                    </div>
+                </div>
+
+                <!-- Address -->
+                <div class="mb-4">
+                    <p class="text-muted mb-2">Wallet Address</p>
+                    <div class="d-flex justify-content-center align-items-center">
+                        <span class="fw-bold text-truncate" style="max-width: 240px;">{{ transactionDetail.transaction_id  }}</span>
+                        <button id="copy-button" class="btn btn-outline-primary btn-sm ms-3">
+                            Copy
+                        </button>
+                    </div>
+                    <p id="copy-feedback" class="text-success mt-2 d-none">Address copied to clipboard!</p>
+                </div>
+
+                <!-- Asset and Amount -->
+                <div class="row mb-4">
+                    <div class="col">
+                        <p class="text-muted mb-1">Asset</p>
+                        <h6 class="fw-bold">{{ transactionDetail.currency | upper }}</h6>
+                    </div>
+                    <div class="col">
+                        <p class="text-muted mb-1">Amount</p>
+                        <h6 class="fw-bold">{{ transactionDetail.amount }}</h6>
+                    </div>
+                </div>
+
+                <!-- Status -->
+                <div class="mb-4">
+                    <p class="text-muted mb-1">Status</p>
+                    <span class="badge bg-warning text-dark px-3 py-2" style="font-size: 0.85rem;" id="status_view">{{ transactionDetail.status | capitalize }}</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <style>
+        /* Progress Tracker */
+        .progress-tracker {
+            display: flex;
+            align-items: center;
+        }
+        .step {
+            text-align: center;
+            color: #6c757d;
+        }
+        .step .circle {
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            background-color: #e9ecef;
+            border-radius: 50%;
+            font-size: 16px;
+            font-weight: bold;
+            margin: 0 auto;
+            position: relative;
+        }
+        .step.active .circle {
+            background: linear-gradient(59deg, rgba(19,103,77,1) 0%, rgba(85,214,161,1) 100%, rgba(188,252,168,1) 100%);
+            color: white;
+        }
+        .step span {
+            display: block;
+            margin-top: 5px;
+            font-size: 12px;
+        }
+        .line {
+            width: 50px;
+            height: 4px;
+            background-color: #e9ecef;
+        }
+        .step.active + .line {
+            background: linear-gradient(59deg, rgba(19,103,77,1) 0%, rgba(85,214,161,1) 100%, rgba(188,252,168,1) 100%);
+        }
+    </style>
+
+    <script>
+        // Copy Address to Clipboard with Enhanced Feedback
+        document.getElementById('copy-button').addEventListener('click', function () {
+            navigator.clipboard.writeText('{{ transactionDetail.transaction_id }}').then(() => {
+                const feedback = document.getElementById('copy-feedback');
+                notyf.open({
+                    type: 'success',
+                    message:'Address copied to clipboard!',
+                });
+            }).catch(err => {
+                notyf.open({
+                    type: 'warning',
+                    message:'Failed to copy the address.',
+                });
+            });
+        });
+
+
+
+    </script>
+    <script>
+        setInterval(Confirmation, 20000);
+        // Create an instance of Notyf
+        function Confirmation() {
+            var transactionID = {{ transactionDetail.id }};
+            console.log(transactionID);
+            // Send AJAX request
+            $.ajax({
+                url: "/checkResult",
+                type: "POST",
+                data: {
+                    check_result: '1',
+                    transID: transactionID,
+                },
+                cache: false,
+                success: function (data) {
+                    console.log(data);
+                    if(data == '1'){
+                        notyf.open({
+                            type: 'info',
+                            message: 'Deposit Successfully',
+                        });
+                        $('#status_view').text('Deposit');
+                    }
+                },
+                error: function () {
+                    notyf.open({
+                        type: 'error',
+                        message: 'Network error. Please try again later.',
+                    });
+                }
+            });
+        }
+
+    </script>
+
+{% endblock %}

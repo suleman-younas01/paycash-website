@@ -1,0 +1,15 @@
+{
+    "require": {
+        "cycle/orm": "^2.6",
+        "cycle/annotated": "^4.0",
+        "tracy/tracy": "^2.10",
+        "phpmailer/phpmailer": "^6.9",
+        "intervention/image": "^3.3",
+        "twig/twig": "^3.0",
+        "stripe/stripe-php": "^16.3",
+        "paypal/paypal-payouts-sdk": "~1.0.0",
+        "guzzlehttp/guzzle": "^7.9",
+        "coinbase/coinbase": "^1.1",
+        "soneso/stellar-php-sdk": "^1.6"
+    }
+}

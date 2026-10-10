@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/notie/dist/notie.min.css">
+
+    <title>Login - Paycash</title>
+    <style>
+        .btn-success {
+            color: #fff;
+            background-color: #13674d !important;
+            border-color: #13674d !important;
+        }
+        .form-control:focus{
+            border-color: #13674d;
+            box-shadow: 0 0 0 .2rem rgb(19 103 77 / 10%);
+        }
+    </style>
+</head>
+<body>
+<div class="container" style="margin-top: 120px">
+    <div class="row">
+
+        <div class="col-md-6 offset-md-3 ">
+            <div class="logo" style="text-align: center">
+                <img src="{{ env.APP_URL }}uploads/settings/{{ siteLogo }}" alt="PayCash Logo" class=" w-50" >
+
+            </div>
+            <br>
+            <div style="text-align: center">
+            <p>
+                Ready for More? Log In Now! <br>
+                Please sign-in to your account and start the adventure
+            </p>
+            </div>
+            <div class="card hover">
+                <div class="card-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Email address</label>
+                            <input type="email" placeholder="Enter Email address" class="form-control" id="email" name="email">
+                            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Password</label>
+                            <input type="password" class="form-control"  id="password" placeholder="Enter your Password">
+                        </div>
+                        <button type="button" id="btn" class="btn btn-success" onclick="do_login()">Login</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/notie/4.3.1/notie.min.js" integrity="sha512-NHRCwRf2LnVSlLDejCA9oS3fG3/FLSQIPCjAWl3M7tVi5wszwr6FxkjotWnQDXLE+aLKcxRrzFDNEgXj9nvkPw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    function do_login() {
+        var email = $("#email").val();
+        var pass = $("#password").val();
+        var csrf_token = $("input[name=csrf]").val();
+        console.log(email);
+        if (email !== "") {
+            if (pass !== "") {
+                document.getElementById("btn").innerHTML = "Loading...";
+                $.ajax({
+                    type: 'post',
+                    url: '/login',
+                    data: {
+                        do_login: "do_login",
+                        email: email,
+                        password: pass,
+                        csrf: csrf_token,
+                    },
+                    success: function(response) {
+                        document.getElementById("btn").innerHTML = "Login";
+                        response = $.parseJSON(response);
+                        console.log(response['statusCode']);
+                        if (response['statusCode'] == "200") {
+                            window.location.href=response.path;
+                            notie.alert({type: 'success', text: 'You are logged in!!!', time: 5});
+                        } else if (response['statusCode'] == "202") {
+                            document.getElementById("btn").innerHTML = "Login";
+                            notie.alert({type: 'error', text: response['message'], time: 5});
+                        } else {
+                            document.getElementById("btn").innerHTML = "Login";
+                            notie.alert({type: 'error', text: response['message'], time: 5});
+                        }
+                    }
+                });
+            } else {
+                document.getElementById("btn").innerHTML = "Login";
+                notie.alert({type: 'error', text: 'Password is required.', time: 5});
+            }
+        } else {
+            document.getElementById("btn").innerHTML = "Login";
+            notie.alert({type: 'error', text: 'Email is required.', time: 5});
+
+        }
+        return false;
+    }
+</script>
+</body>
+</html>

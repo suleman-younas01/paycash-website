@@ -1,0 +1,33 @@
+{% extends 'public/layout.twig' %}
+{% block content %}
+    <div class="container-fluid">
+        <div class="logo mb-5">
+            <img src="{{ env.APP_URL }}assets/images/logo.png" alt="PayCash Logo" class=" w-75">
+        </div>
+        <h1 class="mt-5 fw-bold fs-35" style="color: #000000;">Sign In</h1>
+        <p class="login-text">Add your info to Sign In</p>
+        <form>
+            <div class="mb-3">
+                <input type="text" class="form-control" id="user_name" name="user_name" placeholder="Enter your User Name" >
+            </div>
+            <div class="mb-3">
+                <input type="password" class="form-control" id="password" placeholder="Enter your Password" >
+            </div>
+            <div class="text-end">
+                <a href="forgot-password.php" class="text-decoration-none fw-bold fs-15" style="color: #000000;">Forget Password?</a>
+            </div>
+
+            <h5 class="mt-3 mb-0 fs-17">By continuing you agree to accept our</h5>
+            <span><a href="" class="text-decoration-none fw-bold fs-15" style="color: #000000;">
+                Privacy Policy & Terms & Condition
+            </a>
+        </span><br>
+
+            <a href="../pages/dashboard.php"><button class=" email-login-btn">Continue</button></a>
+        </form>
+        <div class="text-center mt-5">
+            <span class="fs-17" style="color: #000000;">Don't have an account?<a href="numberSignUp.php" class="text-decoration-none fw-bold" style="color: #000000;"> SignUp</a></span>
+        </div>
+
+    </div>
+{% endblock %}

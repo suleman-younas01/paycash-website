@@ -1,0 +1,55 @@
+{% extends 'public/layout.twig' %}
+{% block content %}
+
+    {{ include('public/includes/bottomNav.twig') }}
+
+
+    <!-- Wallet-content -->
+    <div class=" zoom-in" style="margin: 0rem 0 7rem 0 !important;">
+        <div class="d-flex bg-dark pt-4 pb-3 justify-content-between align-items-center fixed-top">
+            <div class="flex-grow-1 text-center">
+                <span class="navbar-brand mb-0 h4 fw-bold">Wallet</span>
+            </div>
+            <i class="bi bi-bell me-3 lightGreen"></i>
+        </div>
+        <div class="container px-4" style="margin-top: 6rem!important;">
+            <div class="balance-card justify-content-between mb-4 d-flex">
+                <div class="d-block text-color">
+                    <h5>Available Balance</h5>
+                    <h1>300 USD</h1>
+                    <p>Value In Euro: 1370</p>
+                </div>
+                <i class="bi bi-pass fs-40 text-color" style="margin-top: 70px"></i>
+            </div>
+            <h2 class="fs-20 fw-bold mb-3">Your Accounts</h2>
+        </div>
+        <div class="card border-0 shadow-sm rounded-3 mx-2">
+            <div class="card-body d-flex align-items-center">
+                <!-- Icon -->
+                <div class=" d-flex align-items-center justify-content-center" >
+                    <i class="bi bi-currency-bitcoin text-warning" style="font-size: 2.5rem;"></i>
+                </div>
+                <!-- Details -->
+                <div class="ms-3 flex-grow-1 ">
+                    <h6 class="mb-1 fw-bold fs-20">XLM</h6>
+                    <p class="mb-0 text-muted mb-0 fs-12 fw-bold">45.0 XLM</p>
+                </div>
+
+                <!-- Price -->
+                <div class="text-end">
+                    <a href="#">
+                        <button class="btn bg-gradiant text-color ms-3 mb-2">Tx History</button>
+                    </a>
+                    <p class="fw-bold fs-13 mb-0">Current Price:<span class="fw-bold">$115,927</span></p>
+                    <p class="fw-bold mb-0"></p>
+                </div>
+
+                <!-- Button -->
+
+            </div>
+        </div>
+
+    </div>
+
+
+{% endblock %}

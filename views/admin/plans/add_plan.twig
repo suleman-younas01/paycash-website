@@ -1,0 +1,281 @@
+{% extends 'admin/master.twig' %}
+{% block content %}
+    <link rel="stylesheet" type="text/css" href="{{ env.APP_URL }}assets/dashboard/src/plugins/src/tagify/tagify.css">
+    <link rel="stylesheet" type="text/css" href="{{ env.APP_URL }}assets/dashboard/src/plugins/css/light/tagify/custom-tagify.css">
+<style>
+    .tagify__input{
+        padding:0px !important;
+    }
+    .radioButton {
+        float: left;
+        margin: 0 5px 0 0;
+        width: 100%;
+        height: 100px;
+        position: relative;
+    }
+
+    .radioButton label,
+    .radioButton input {
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+
+    .radioButton input[type="checkbox"] {
+        opacity: 0.011; /* Keep this to hide the radio button */
+        z-index: 100;
+    }
+
+    .radioButton input[type="checkbox"]:checked + label > button {
+        background: #ED141F; /* Change the background color when checked */
+        color: white; /* Change text color to white */
+        border-color: #ED141F;
+    }
+
+    .radioButton label {
+        cursor: pointer;
+        z-index: 90;
+        line-height: 70px; /* Adjust line height to center text vertically */
+    }
+
+    .radioButton label > button {
+        width: 100%; /* Make the button fill the label */
+        height: 100%;
+        border-radius: 4px;
+        background-color: transparent; /* Initial background for unselected button */
+        border: 1px solid #000; /* Border for the unselected button */
+        color: #000; /* Text color for unselected button */
+        font-size: 16px; /* Adjust font size as needed */
+    }
+    .btn-check:checked+.btn.btn-outline.btn-outline-dashed.btn-outline-default .svg-icon, .btn-check:checked+.btn.btn-outline.btn-outline-dashed.btn-outline-default i{
+        color:#00a500 !important;
+
+    }
+    .svg-icon.svg-icon-3hx svg{
+        height: 2.5rem !important;
+        width: 2.5rem !important;
+    }
+</style>
+    <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+    <!--begin::Toolbar-->
+    <div class="toolbar" id="kt_toolbar">
+        <!--begin::Container-->
+        <div id="kt_toolbar_container" class="container-fluid d-flex flex-stack">
+            <!--begin::Page title-->
+            <div data-kt-swapper="true" data-kt-swapper-mode="prepend" data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}" class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
+                <!--begin::Title-->
+                <h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1">Plans</h1>
+                <!--end::Title-->
+                <!--begin::Separator-->
+                <span class="h-20px border-gray-300 border-start mx-4"></span>
+                <!--end::Separator-->
+                <!--begin::Breadcrumb-->
+                <ul class="breadcrumb breadcrumb-separatorless fw-bold fs-7 my-1">
+                    <!--begin::Item-->
+                    <li class="breadcrumb-item text-muted">
+                        <a href="/" class="text-muted text-hover-primary">Home</a>
+                    </li>
+                    <!--end::Item-->
+                    <!--begin::Item-->
+                    <li class="breadcrumb-item">
+                        <span class="bullet bg-gray-300 w-5px h-2px"></span>
+                    </li>
+                    <!--end::Item-->
+                    <!--begin::Item-->
+                    <li class="breadcrumb-item text-muted">Plans</li>
+                    <!--end::Item-->
+                </ul>
+                <!--end::Breadcrumb-->
+            </div>
+        </div>
+        <!--end::Container-->
+    </div>
+    <!--end::Toolbar-->
+    <!--begin::Post-->
+    <div class="post d-flex flex-column-fluid" id="kt_post">
+    <!--begin::Container-->
+    <div id="kt_content_container" class="container-fluid">
+        <div class="layout-px-spacing">
+
+            <div class="middle-content container-fluid p-0">
+
+
+                <div class="account-settings-container layout-top-spacing">
+                    <div class="content-body">
+                        <div class="container-fluid">
+                            <!-- row -->
+                            <div class="row">
+
+                                <div class="col-xl-12 col-lg-12">
+                                    <div id="ErrorMessage"></div>
+                                    <div class="card  card-bx m-b30">
+                                            <h6 class="title" style="padding-top: 25px; padding-left: 25px;">Add Plan</h6>
+                                        <form method="post" id="AddPlansForm" class="profile-form">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-sm-6 mb-2">
+                                                        <label class="form-label">Name</label>
+                                                        <input type="text" class="form-control form-control-solid" id="name" name="name" placeholder="Name">
+                                                        <input type="hidden" name="csrf" value="{{ csrf }}">
+                                                    </div>
+                                                    <div class="col-sm-6 mb-2">
+                                                        <label class="form-label" for="tags">Tags:</label>
+                                                        <input name='basic' id="tags" value='' class="form-control form-control-solid">
+                                                    </div>
+{#                                                    <div class="col-lg-12 mt-2 mb-2">#}
+{#                                                        <button class="btn btn-success" type="button" onclick="addKey_points();" style="float: right; background: #28a745 !important; border-color: #28a745 !important;">ADD <span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>#}
+{#                                                    </div>#}
+{#                                                    <div class="col-sm-12 mb-2">#}
+{#                                                        <label class="form-label">Key Points</label>#}
+{#                                                        <input type="text" class="form-control form-control-solid" id="key_points" name="key_points[]" placeholder="Add Key Point">#}
+{#                                                    </div>#}
+
+{#                                                    <div class="col-sm-12 mb-2">#}
+{#                                                    <div id="addKey_points">#}
+
+{#                                                    </div>#}
+{#                                                    </div>#}
+
+
+
+                                                    <div class="col-sm-12 mb-2">
+                                                        <label class="form-label">Discount (%)</label>
+                                                        <input type="number" class="form-control form-control-solid" id="percentage" min="0" name="percentage" placeholder="Discount (%)" value="0">
+                                                    </div>
+                                                    <div class="col-sm-6 mb-2">
+                                                        <label class="form-label">Monthly Price</label>
+                                                        <input type="number" class="form-control form-control-solid" id="monthly_price" min="0" name="monthly_price" placeholder="Monthly Price">
+                                                    </div>
+                                                    <div class="col-sm-6 mb-2">
+                                                        <label class="form-label">Yearly Price</label>
+                                                        <input type="number" class="form-control form-control-solid" id="yearly_price" min="0" name="yearly_price" placeholder="Yearly Price">
+                                                    </div>
+                                                    <div class="col-sm-12 mb-2">
+                                                        <div class="row">
+                                                            {% for permission in permissions %}
+                                                                <div class="col-xl-3 col-md-4 mt-2">
+                                                                    <input type="checkbox" class="btn-check permission-checkbox" name="key_points[]" value="{{ permission.id }}" id="{{ permission.id }}">
+                                                                    <label class="btn btn-outline btn-outline-dashed btn-outline-default p-7 d-flex align-items-center h-100" for="{{ permission.id }}">
+        <span class="svg-icon svg-icon-3hx svg-icon-primary" id="svg-{{ permission.id }}">
+            <!-- Default SVG -->
+            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+        </span>
+                                                                        <span class="d-block fw-bold text-start">
+            <span class="text-dark fw-bolder d-block fs-3">{{ permission.title }}</span>
+        </span>
+                                                                    </label>
+                                                                </div>
+                                                            {% endfor %}
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-footer">
+                                                <button type="button" class="btn btn-primary" id="btn" onclick="add_plan()">ADD</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tagify/4.27.0/tagify.min.js" integrity="sha512-RZnh1b5EBFnw6IaiqEhT0dQy+dCbeC6ZybZY/CkMlk2OW8Eyj20/t8Js3Ka1Ot/sQIVL20N81p7FRQvloTZgtw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script>
+        document.querySelectorAll('.permission-checkbox').forEach(function(checkbox) {
+            checkbox.addEventListener('change', function() {
+                var svgContainer = document.getElementById('svg-' + this.id);
+
+                if (this.checked) {
+                    svgContainer.innerHTML = `
+                    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                        <path d="M7 11V7a5 5 0 0 1 9.9-1"></path>
+                    </svg>
+                `;
+                } else {
+                    svgContainer.innerHTML = `
+                    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                    </svg>
+                `;
+                }
+            });
+        });
+
+        var input = document.querySelector('input[name=basic]');
+        new Tagify(input)
+        function add_plan() {
+            document.getElementById('btn').disabled = true;
+            var tags = input.value;
+            // console.log(tags);
+            var formData = new FormData(document.getElementById("AddPlansForm"));
+             formData.set('basic', tags);
+            $.ajax({
+                url: "/admin/add_plan",
+                type: "POST",
+                data: formData,
+                contentType: false,
+                cache: false,
+                processData: false,
+                success: function (dataResult) {
+                    console.log(dataResult);
+                    if (dataResult == 1) {
+                        document.getElementById('btn').disabled = false;
+                        toastr.success('Add Successfully.');
+                        document.getElementById("AddPlansForm").reset();
+                        location.href = '/admin/plans'
+                    } else if (dataResult == 2) {
+                        toastr.error("Please Fill all the required Fields");
+                        document.getElementById('btn').disabled = false;
+                    }else if (dataResult == 3) {
+                        toastr.error("Please Add Prices");
+                        document.getElementById('btn').disabled = false;
+                    } else {
+                        toastr.error('Something Went Wrong.');
+                        document.getElementById('btn').disabled = false;
+                    }
+                }
+            });
+        }
+
+    </script>
+{#    <script>#}
+
+
+{#        var room = 1;#}
+{#        function addKey_points() {#}
+{#            room++;#}
+{#            var objTo = document.getElementById('addKey_points')#}
+{#            var divtest = document.createElement("div");#}
+{#            divtest.setAttribute("class", "form-group row removeclass"+room);#}
+{#            var rdiv = 'removeclass'+room;#}
+
+{#            divtest.innerHTML = ' <div class="col-sm-10 mt-2"><input type="text" class="form-control form-control-solid" id="key_points" name="key_points[]" placeholder="Add Key Point"></div><div class="col-sm-2 "><button class="btn btn-danger mt-3 mb-2" type="button" onclick="remove_Key_points('+ room +');" style="float: right; background: #dc3545 !important; border-color: #dc3545 !important;">DELETE <span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button></div>';#}
+{#            objTo.appendChild(divtest)#}
+{#        }#}
+{#        // children remove fields#}
+{#        function remove_Key_points(rid) {#}
+{#            $('.removeclass'+rid).remove();#}
+{#        }#}
+
+
+{#    </script>#}
+{% endblock %}

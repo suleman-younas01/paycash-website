@@ -1,0 +1,131 @@
+{% extends 'public/layout.twig' %}
+{% block content %}
+    {{ include('public/includes/styles.twig') }}
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/notie/dist/notie.min.css">
+    <style>
+        .container-fluid {
+            padding: 131px 35px 0 35px !important;
+        }
+    </style>
+<div class="container-fluid">
+    <div class="logo mb-3">
+        <img src="{{ env.APP_URL }}uploads/settings/{{ siteLogo }}" alt="PayCash Logo" class=" w-75">
+    </div>
+    <h3 class=" fw-bold fs-30" style="color: #000000;">Sign Up</h3>
+    <p class="login-text mb-3">Add your info to Sign Up</p>
+    <div id="ErrorMessage"></div>
+    <form id="registerForm">
+        <div class="mb-3 d-flex">
+            <input type="text" class="form-control me-1" id="first_name" name="first_name" placeholder=" First Name *" required>
+            <input type="text" class="form-control ms-1" id="last_name" name="last_name" placeholder=" Last Name *" required>
+        </div>
+        <div class="mb-3" id="email-input">
+            <input type="email" class="form-control" id="email" name="email" placeholder="Enter your Email *" required>
+{#            <p style=" text-align: end; ">Change to phone no? <a type="button" onclick="changeInput('phone')">Click here</a></p>#}
+        </div>
+        <div class="mb-3" id="phone-input">
+            <input type="number" class="form-control" id="phone" name="phone_no" placeholder="Enter your Phone No" required>
+{#            <p style=" text-align: end; ">Change to phone no? <a type="button" onclick="changeInput('email')">Click here</a></p>#}
+        </div>
+
+        <div class="mb-3">
+            <input type="password" class="form-control" id="password" placeholder="Enter your Password *" required>
+        </div>
+        <div class="mb-3">
+            <input type="password" class="form-control" id="confirmPassword" placeholder="Enter your Confirm Password *" required>
+        </div>
+        <!--        <div class="mb-3">-->
+        <!--            <input type="password" class="form-control" id="confirm_password" placeholder="Enter your Confirm Password" required>-->
+        <!--        </div>-->
+
+
+
+        <span><input type="checkbox" id="check" name="check" required> <span >By continuing you agree to accept our</span> <a href="" class="text-decoration-none fw-bold fs-15" style="color: #000000;">
+                Privacy Policy & Terms & Condition  </a>
+
+        </span><br>
+
+        <button id="submitButton" type="button" onclick="do_register()" class="btn deposit-button mt-3 w-75 text-color">Sign Up</button>
+    </form>
+    <div class="text-center mt-3 mb-3">
+        <span class="fs-17" style="color: #000000;">Already have an account?<a href="/login"  class="text-decoration-none fw-bold" style="color: #000000;"> Signin</a></span>
+    </div>
+
+</div>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/notie/4.3.1/notie.min.js" integrity="sha512-NHRCwRf2LnVSlLDejCA9oS3fG3/FLSQIPCjAWl3M7tVi5wszwr6FxkjotWnQDXLE+aLKcxRrzFDNEgXj9nvkPw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script>
+
+    function changeInput(val){
+        console.log(val);
+        if(val === 'email'){
+            document.getElementById('email').classList.remove('hide');
+            document.getElementById('phone').classList.add('hide');
+        }else{
+            document.getElementById('phone').classList.remove('hide');
+            document.getElementById('email').classList.add('hide');
+        }
+    }
+    $(document).ready(function() {
+        $('#registerForm').on('submit', function(event) {
+            event.preventDefault();
+            do_register();
+        });
+    });
+    function do_register() {
+        var firstName = $("#first_name").val();
+        var lastName = $("#last_name").val();
+        var email = $("#email").val();
+        var phone = $("#phone").val();
+        var password = $("#password").val();
+        var confirmPassword = $("#confirmPassword").val();
+        var check =document.getElementById('check').checked;
+        if(firstName !='' && lastName !='' && email !=''  && password !='' && confirmPassword!='') {
+            if (password != confirmPassword) {
+                notie.alert({type: 'error', text: 'Passwords do not match', time: 5});
+                return
+            }
+            if(check){
+            $("#submitButton").text("Loading...");
+            // $("#submitButton").prop('disabled', true);
+            $.ajax({
+                type: 'post',
+                url: '/signup',
+                data: {
+                    first_name: firstName,
+                    last_name: lastName,
+                    email: email,
+                    phone: phone,
+                    password: password,
+                    confirmPassword: confirmPassword
+                },
+                success: function (response) {
+                    response = $.parseJSON(response);
+                    if (response.statusCode == "200") {
+                        $("#submitButton").text('Redirecting...');
+                        notie.alert({type: 'success', text: response.message, time: 5});
+                        setTimeout(function () {
+                            window.location.href = "/email-verification"
+                        }, 1000);
+                    } else {
+                        $("#submitButton").text("Sign Up");
+                        // $("#submitButton").prop('disabled', false);
+                        notie.alert({type: 'error', text: response.message, time: 5});
+                    }
+                },
+                error: function () {
+                    $("#submitButton").text("Sign Up");
+                    // $("#submitButton").prop('disabled', false);
+                    notie.alert({type: 'error', text: 'An error occurred. Please try again.', time: 5});
+                }
+            });
+        }else{
+            notie.alert({type: 'error', text: 'You must agree to the terms first.', time: 5});
+        }
+        }else{
+            notie.alert({type: 'error', text: 'Please fill all the required fields', time: 5});
+        }
+    }
+    </script>
+{% endblock %}

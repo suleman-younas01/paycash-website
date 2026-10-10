@@ -1,0 +1,87 @@
+{% extends 'public/layout.twig' %}
+{% block content %}
+
+    {{ include('public/includes/bottomNav.twig') }}
+
+    <div class="zoom-in" style="margin: 0rem 0 7rem 0 !important;">
+        <div class="pt-2 bg-dark pb-2 d-flex justify-content-between align-items-center">
+            <div class="flex-grow-1 text-center">
+                <span class="navbar-brand mb-0 h4 fw-bold">Transaction History</span>
+            </div>
+            <i class="bi bi-bell me-3"></i>
+        </div>
+
+        <div class="container mt-3" id="flatHistory">
+            {% if transaction_history %}
+                {% for transaction in transaction_history %}
+                    <a href="/transaction/detail/{{ transaction.id }}">
+                    <div class="card border-0 shadow-sm rounded-3 mx-2 my-3">
+                        <div class="card-body align-items-center p-2">
+                            <div class="d-flex">
+                                <div class="d-flex align-items-center justify-content-center">
+                                    <i class="bi bi-currency-{{ transaction.currency|lower }} text-warning" style="font-size: 2.5rem;"></i>
+                                </div>
+
+                                <div class="ms-3 flex-grow-1">
+                                    <p class="mb-0 text-{% if transaction.transaction_type == 'deposit' %}success{% elseif transaction.transaction_type == 'transfer' %}danger{% elseif transaction.transaction_type == 'withdraw' %}danger{% endif %} fs-12 fw-bold">
+                                        {{ transaction.transaction_type|capitalize }}
+                                    </p>
+
+                                    {% if transaction.transaction_type == 'transfer' %}
+                                        {% if transaction.user_id == loginUser.id %}
+                                            <h6 class="mb-0 fw-bold fs-14">Sent to: {{ transaction.recipient_name }}</h6>
+                                        {% else %}
+                                            <h6 class="mb-0 fw-bold fs-14 text-success">Received from: {{ transaction.sender_name }}</h6>
+                                        {% endif %}
+                                    {% elseif transaction.transaction_type == 'deposit' %}
+                                        <h6 class="mb-0 fw-bold fs-14 "> Deposit {{ transaction.currency|upper }}</h6>
+
+                                    {% endif %}
+
+                                    <p class="mb-0 text-{% if transaction.status == 'completed' %}success{% else %}danger{% endif %} mb-3">
+                                        {{ transaction.status|capitalize }}
+                                    </p>
+                                </div>
+
+                                <div class="text-center">
+                                    <i class="bi bi-arrow-{% if transaction.transaction_type == 'deposit' %}down{% elseif transaction.transaction_type == 'withdraw' %}up{% elseif transaction.transaction_type == 'transfer' %}{% if transaction.sender_id == loginUser.id %}up{% else %}down{% endif %}{% else %} up{% endif %} text-{% if transaction.transaction_type == 'deposit' %}success{% elseif transaction.transaction_type == 'withdraw' %}danger{% elseif transaction.transaction_type == 'transfer' %}{% if transaction.sender_id == loginUser.id %}danger{% else %}success{% endif %}{% else %} success{% endif %}" style="font-size: 1.5rem;"></i>
+                                    <h6 class="mb-0 fs-13 fw-bold">{{ transaction.currency|upper }} {{ transaction.amount_in_usd|number_format(2, '.', ',')  }}</h6>
+                                </div>
+                            </div>
+
+                            <div class="d-flex ms-2 mb-2">
+                                <div class="flex-grow-1">
+                                    {% if transaction.transaction_id != '' %}
+                                    <h6 class="fs-13 fw-bold mb-0">Transaction Hash:</h6>
+                                    {% endif %}
+                                    <h6 class="fs-13 fw-bold mb-0 transaction-id" title="{{ transaction.transaction_id }}">
+                                        {% if transaction.transaction_id|length > 12 %}
+                                            {{ transaction.transaction_id[:6] }}...{{ transaction.transaction_id[-6:] }}
+                                        {% else %}
+                                            {{ transaction.transaction_id }}
+                                        {% endif %}
+                                    </h6>
+                                </div>
+                                <div class="text-end">
+{#                                    <div class="fw-bold fs-17">{{ transaction.currency|upper }} {{ transaction.amount }}</div>#}
+
+                                    {% if transaction.user_id == loginUser.id %}
+                                        <div class="fs-12"> Balance: USD {{ transaction.sender_balance|number_format(2, '.', ',')  }}</div>
+                                    {% elseif transaction.recipient_id == loginUser.id %}
+                                        <div class="fs-12"> Balance: USD {{ transaction.recipient_balance|number_format(2, '.', ',')  }}</div>
+                                    {% endif %}
+
+                                    <div class="fs-12">{{ transaction.created_at|date("d M Y H:i") }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </a>
+                {% endfor %}
+            {% else %}
+                <p class="text-center mt-3">No transactions found.</p>
+            {% endif %}
+        </div>
+
+    </div>
+{% endblock %}

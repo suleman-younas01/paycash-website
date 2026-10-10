@@ -1,0 +1,146 @@
+{% extends 'public/layout.twig' %}
+{% block content %}
+
+    {{ include('public/includes/bottomNav.twig') }}
+
+    <!-- Transaction Detail Page -->
+    <div  class="zoom-in" style="margin: 0rem 0 7rem 0 !important;">
+        <!-- Header -->
+        <div class="header bg-dark text-white d-flex align-items-center p-3" style="justify-content: stretch !important;">
+            <a href="/transactions"><i class="bi bi-x-lg text-white close-btn"></i></a>
+            <h5 class="mb-0 fw-bold">Transaction Details</h5>
+        </div>
+
+        <div class="container mt-3">
+            <div class="card border-0 shadow-sm rounded-3 p-3">
+                <div class="d-flex justify-content-between align-items-center">
+
+                    <!-- Left Side: Transaction Details -->
+                    <div>
+                        <h6 class="mb-0 text-{% if transaction.transaction_type == 'deposit' %}success{% elseif transaction.transaction_type == 'transfer' %}danger{% elseif transaction.transaction_type == 'withdraw' %}danger{% endif %} fw-bold">
+                            {{ transaction.transaction_type|capitalize }}
+                        </h6>
+                        <p class="text-muted fs-12">{{ transaction.created_at|date("d M Y H:i") }}</p>
+                    </div>
+
+                    <!-- Right Side: Arrow Icon -->
+                    <i class="bi bi-arrow-{% if transaction.transaction_type == 'deposit' %}down{% elseif transaction.transaction_type == 'withdraw' %}up{% elseif transaction.transaction_type == 'transfer' %}{% if transaction.sender_id == loginUser.id %}up{% else %}down{% endif %}{% else %} up{% endif %} text-{% if transaction.transaction_type == 'deposit' %}success{% elseif transaction.transaction_type == 'withdraw' %}danger{% elseif transaction.transaction_type == 'transfer' %}{% if transaction.sender_id == loginUser.id %}danger{% else %}success{% endif %}{% else %} success{% endif %}" style="font-size: 1.5rem;"></i>
+                
+
+                </div>
+
+                <hr>
+
+                <div class="details">
+                    {% if transaction.system_transaction_id != '' %}
+                        <p><strong>System Transaction ID:</strong> {{ transaction.system_transaction_id }}</p>
+                    {% endif %}
+                    {% if transaction.transaction_id != '' %}
+                        <p><strong>Transaction Hash:</strong> {{ transaction.transaction_id }}</p>
+                    {% endif %}
+                    <p><strong>Status:</strong> <span class="{% if transaction.status == 'completed' %}text-success{% else %}text-danger{% endif %}">{{ transaction.status|capitalize }}</span></p>
+
+                    {% if transaction.transaction_type == 'transfer' %}
+                        {% if transaction.user_id == loginUser.id %}
+                            <p><strong>Sent To:</strong> {{ transaction.recipient_name }}</p>
+                        {% else %}
+                            <p><strong>Received From:</strong> {{ transaction.sender_name }}</p>
+                        {% endif %}
+                    {% endif %}
+
+                    <p><strong>Amount:</strong> {{ transaction.currency|upper }} {{ transaction.amount_in_usd|number_format(2, '.', ',') }}</p>
+
+                    {% if transaction.user_id == loginUser.id %}
+                        <p><strong>Balance:</strong> USD {{ transaction.sender_balance|number_format(2, '.', ',') }}</p>
+                    {% elseif transaction.recipient_id == loginUser.id %}
+                        <p><strong> Balance:</strong> USD {{ transaction.recipient_balance|number_format(2, '.', ',') }}</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Background Overlay -->
+    <div id="overlay" class="overlay" onclick="closeTransactionDetail()"></div>
+
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        function openTransactionDetail() {
+            document.getElementById("transactionDetail").classList.add("show");
+            document.getElementById("overlay").classList.add("show");
+        }
+
+        function closeTransactionDetail() {
+            document.getElementById("transactionDetail").classList.remove("show");
+            document.getElementById("overlay").classList.remove("show");
+        }
+    </script>
+
+    <style>
+        /* Center the Transaction Details heading */
+        .header {
+            text-align: center;
+            display: flex;
+            justify-content: stretch !important; /* Centers heading */
+            align-items: center;
+            position: relative;
+        }
+
+        .close-btn {
+            position: absolute;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Transaction Detail Sliding Page */
+        .transaction-detail {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 100%;
+            height: 100%;
+            background: white;
+            z-index: 1000;
+            transition: right 0.3s ease-in-out;
+            overflow-y: auto;
+        }
+
+        .transaction-detail.show {
+            right: 0;
+        }
+
+        .close-btn {
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Overlay Background */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        .overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .transaction-detail {
+                width: 100%;
+            }
+        }
+    </style>
+{% endblock %}

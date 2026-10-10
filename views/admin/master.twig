@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <base href="">
+    <title>{{ seo.title }}</title>
+    <meta charset="utf-8" />
+    <meta name="description" content="Techneketax: leading tax &amp; accounting practice management software. Boost efficiency, automate tasks, and improve client satisfaction." />
+    <meta name="keywords" content="Techneketax, Tax,leading tax &amp; accounting practice management software. Boost efficiency, automate tasks, and improve client satisfaction." />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Techneketax - leading tax &amp; accounting practice management software" />
+    <meta property="og:url" content="https://techneketax.com/" />
+    <meta property="og:site_name" content="Techneketax | leading tax &amp; accounting practice management software" />
+    <link rel="canonical" href="https://techneketax.com/" />
+
+    <link rel="icon" type="image/webp" href="{{ env.APP_URL }}assets/img/favicon.webp"/>
+    {{ include('admin/includes/styles.twig') }}
+</head>
+<!--begin::Body-->
+<body id="kt_body" class="header-fixed header-tablet-and-mobile-fixed toolbar-enabled toolbar-fixed aside-enabled aside-fixed " style="--kt-toolbar-height:55px;--kt-toolbar-height-tablet-and-mobile:55px">
+
+<div class="d-flex flex-column flex-root">
+    <!--begin::Page-->
+    <div class="page d-flex flex-row flex-column-fluid">
+            {{ include('admin/includes/sidebar.twig') }}
+
+        <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
+            {{ include('admin/includes/navbar.twig') }}
+            <div id="call-ringing"></div>
+            {% block content %} {% endblock %}
+
+
+            {{ include('admin/includes/footer.twig') }}

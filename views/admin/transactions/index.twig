@@ -1,0 +1,230 @@
+{% extends 'admin/master.twig' %}
+{% block content %}
+
+    <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+        <div class="toolbar" id="kt_toolbar">
+            <div id="kt_toolbar_container" class="container-fluid d-flex flex-stack">
+                <div class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
+                    <h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1">Transactions</h1>
+                    <span class="h-20px border-gray-300 border-start mx-4"></span>
+                    <ul class="breadcrumb breadcrumb-separatorless fw-bold fs-7 my-1">
+                        <li class="breadcrumb-item text-muted">Transactions</li>
+                        <li class="breadcrumb-item">
+                            <span class="bullet bg-gray-300 w-5px h-2px"></span>
+                        </li>
+                        <li class="breadcrumb-item text-dark">All Transactions</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="post d-flex flex-column-fluid" id="kt_post">
+            <div id="kt_content_container" class="container-fluid">
+                <div class="layout-px-spacing">
+                    <div class="middle-content container-fluid p-0">
+                        <div class="row layout-spacing">
+                            <div class="col-xl-12 col-lg-12 col-sm-12 layout-spacing">
+                                <div class="widget-content widget-content-area card">
+                                    <div class="card-header border-0 pt-6 w-100">
+                                        <div class="col-md-6 mt-3 text-md-start text-center">
+                                            <input type="text" id="search" class="form-control form-control-solid w-250px ps-15" placeholder="Search Transactions" />
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table id="transactionsTable" class="table table-hover table-row-dashed fs-6 gy-5 my-0">
+                                                <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Type</th>
+                                                    <th>Sender</th>
+                                                    <th>Receiver</th>
+                                                    <th>Amount</th>
+                                                    <th>Amount (USD)</th>
+                                                    <th>Date & Time</th>
+                                                    <th>Status</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Transaction Details Modal -->
+    <div class="modal fade" id="transactionModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered mw-650px">
+            <div class="modal-content rounded">
+                <div class="modal-header pb-0 border-0 justify-content-end">
+                    <h2 class="modal-title" id="modalTitle">Transaction Details</h2>
+                    <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                        <i class="fa fa-times"></i>
+                    </div>
+                </div>
+                <div class="modal-body scroll-y px-10 px-lg-15 pt-0 pb-15">
+                    <p><strong>Type:</strong> <span id="viewTransactionType"></span></p>
+                    <p><strong>Status:</strong> <span id="viewStatus"></span></p>
+                    <p><strong>Date & Time:</strong> <span id="viewCreatedAt"></span></p>
+                    <p><strong>Amount:</strong> <span id="viewAmount"></span></p>
+                    <p><strong>Amount in USD:</strong> <span id="viewAmountUsd"></span></p>
+                    <p><strong>Currency:</strong> <span id="viewCurrency"></span></p>
+
+                    <div id="senderContainer">
+                        <p><strong>Sender:</strong> <span id="viewSender"></span></p>
+                        <p><strong>Sender Balance:</strong> <span id="viewSenderBalance"></span></p>
+                    </div>
+
+                    <div id="receiverContainer" style="display: none;">
+                        <p><strong>Receiver:</strong> <span id="viewReceiver"></span></p>
+                    </div>
+
+                    <div id="recipientBalanceContainer" style="display: none;">
+                        <p><strong>Receiver Balance:</strong> <span id="viewRecipientBalance"></span></p>
+                    </div>
+
+                    <div id="systemTransactionContainer" style="display: none;">
+                        <p><strong>System Transaction ID:</strong> <span id="viewSystemTransactionId"></span></p>
+                    </div>
+
+                    <p><strong>Transaction ID:</strong> <span id="viewTransactionId"></span></p>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function () {
+            var csrf_token = "{{ csrf }}";
+            $('#transactionsTable').DataTable({
+                "processing": true,
+                "serverSide": true,
+                "ajax": {
+                    "url": "/admin/api?page_name=view_allTransactions&csrf=" + csrf_token,
+                    "type": "GET"
+                },
+                "columns": [
+                    { "data": "system_transactionID" },
+                    { "data": "transaction_type" },
+                    { "data": "sender_name" },
+                    { "data": "receiver_name" },
+                    { "data": "amount" },
+                    { "data": "amount_in_usd" },
+                    { "data": "date_time" },
+                    { "data": "status" },
+                    { "data": "action" }
+                ]
+            });
+
+            $('#search').on('keyup', function() {
+                $('#transactionsTable').DataTable().search(this.value).draw();
+            });
+        });
+        $(document).ready(function () {
+            $('body').on('click', '.viewTransaction', function () {
+                var id = $(this).data('id');
+
+                $.ajax({
+                    url: "/admin/getTransactionDetails",
+                    type: "POST",
+                    data: { id: id },
+                    cache: false,
+                    success: function (dataResult) {
+                        var data = JSON.parse(dataResult);
+
+                        $('#viewTransactionType').html(getTransactionBadge(data.transaction_type));
+                        $('#viewStatus').html(getStatusBadge(data.status));
+                        $('#viewCreatedAt').text(data.created_at);
+                        $('#viewAmount').text(data.currency + " " + data.amount);
+                        $('#viewAmountUsd').text("USD " + data.amount_in_usd);
+                        $('#viewCurrency').text(data.currency);
+                        $('#viewTransactionId').text(data.transaction_id);
+
+                        // Handle Sender
+                        $('#senderContainer').show();
+                        $('#viewSender').text(data.sender_name ? data.sender_name : "N/A");
+
+                        // Handle Recipient Only for Transfer
+                        if (data.transaction_type === "transfer") {
+                            $('#receiverContainer').show();
+                            $('#recipientBalanceContainer').show();
+                            $('#viewReceiver').text(data.recipient_name ? data.recipient_name : "N/A");
+                            $('#viewRecipientBalance').text("USD " + data.recipient_balance);
+                        } else {
+                            $('#receiverContainer').hide();
+                            $('#recipientBalanceContainer').hide();
+                        }
+
+                        // Show System Transaction ID for Deposit & Withdraw
+                        if (data.system_transaction_id) {
+                            $('#systemTransactionContainer').show();
+                            $('#viewSystemTransactionId').text(data.system_transaction_id);
+                        } else {
+                            $('#systemTransactionContainer').hide();
+                        }
+
+                        $('#viewSenderBalance').text("USD " + data.sender_balance);
+
+                        $('#transactionModal').modal('show');
+                    }
+                });
+            });
+        });
+
+        // Function to show transaction type with badge
+        function getTransactionBadge(type) {
+            if (type === "deposit") {
+                return '<span class="badge badge-light-success">Deposit</span>';
+            } else if (type === "withdraw") {
+                return '<span class="badge badge-light-warning">Withdraw</span>';
+            } else if (type === "transfer") {
+                return '<span class="badge badge-light-info">Transfer</span>';
+            }
+            return '<span class="badge badge-light-secondary">Unknown</span>';
+        }
+
+        // Function to show status with badge
+        function getStatusBadge(status) {
+            return status === "completed" ? '<span class="badge badge-light-success">Completed</span>'
+                : '<span class="badge badge-light-warning">Pending</span>';
+        }
+
+        // Function to show transaction type with badge
+        function getTransactionBadge(type) {
+            if (type === "deposit") {
+                return '<span class="badge badge-light-success">Deposit</span>';
+            } else if (type === "withdraw") {
+                return '<span class="badge badge-light-warning">Withdraw</span>';
+            } else if (type === "transfer") {
+                return '<span class="badge badge-light-info">Transfer</span>';
+            }
+            return '<span class="badge badge-light-secondary">Unknown</span>';
+        }
+
+        // Function to show status with badge
+        function getStatusBadge(status) {
+            console.log(status);
+            if (status === "Completed") {
+                return '<span class="badge badge-light-success">Completed</span>';
+            } else if (status === "Pending") {
+                return '<span class="badge badge-light-warning">Pending</span>';
+            } else if (status === "Failed") {
+                return '<span class="badge badge-light-danger">Failed</span>';
+            }else if (status === "Requested") {
+                return '<span class="badge badge-light-danger">Requested</span>';
+            }
+            return '<span class="badge badge-light-secondary">Unknown</span>';
+        }
+
+    </script>
+
+{% endblock %}

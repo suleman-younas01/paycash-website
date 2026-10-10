@@ -1,0 +1,234 @@
+
+
+<style>
+    @font-face {
+        font-family: 'Poppins';
+        font-style: normal;
+        font-weight: 500;
+        font-display: swap;
+        src: url('https://fonts.gstatic.com/s/poppins/v15/pxiByp8kv8JHgFVrLGT9Z1xlEA.ttf') format('truetype');
+    }
+    /*@font-face {*/
+    /*    font-family: 'Stem Text';*/
+    /*    src: url('/fonts/StemText-Bold.woff2') format('woff2'),*/
+    /*    url('/fonts/StemText-Bold.woff') format('woff'),*/
+    /*    url('/fonts/StemText-Bold.ttf') format('truetype');*/
+    /*    font-weight: bold;*/
+    /*    font-style: normal;*/
+    /*}*/
+    .lightGreen{
+        color:#55d6a1!important;
+    }
+    body {
+        background-color: #f8f9fa;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+        /*font-family: 'Helvetica Hebrew W27', sans-serif;*/
+        font-family: "Poppins", serif;
+    }
+    .ff{
+        font-family: "Poppins", serif;
+    }
+    .balance-card {
+        background: #333;
+        /*background: linear-gradient(59deg, rgba(19,103,77,1) 0%, rgba(85,214,161,1) 100%, rgba(188,252,168,1) 100%);*/
+        color: white;
+        border-radius: 20px;
+        padding: 16px 30px 16px 30px;
+    }
+    .deposit-button {
+        background: rgb(19,103,77);
+        background: linear-gradient(59deg, rgba(19,103,77,1) 0%, rgba(85,214,161,1) 100%, rgba(188,252,168,1) 100%);
+        color: white;
+        border: none;
+        border-radius: 10px;
+        padding: 15px 0;
+        font-weight: bold;
+    }
+    .nav-link.active {
+        background: #333;
+        color: #e1f4f4!important;
+
+    }
+    .bottom-nav-link.active {
+        color: #ffffff !important;
+        background-color: transparent !important;
+        font-weight: bold;
+    }
+    .icon-placeholder {
+        background-color: #e9ecef;
+        height: 50px;
+        border-radius: 5px;
+    }
+    .bottom-nav .nav-link {
+        color: #55d6a1;
+        font-size: 14px;
+    }
+    .home-nav-btn{
+
+        border-right: 1px solid #333;
+        padding: 10px 0 10px 0px;
+    }
+    .topNav{
+        background: rgb(19,103,77);
+        background: linear-gradient(59deg, rgba(19,103,77,1) 0%, rgba(85,214,161,1) 0%, rgba(188,252,168,1) 100%);
+        /*border-bottom: 2px solid #bcbcbc;*/
+        /*border-top: 2px solid #bcbcbc;*/
+    }
+    .home-content, .deposit-content{
+        padding: 0 10px 60px 10px!important;
+
+    }
+
+    .form-control {
+        border-radius: 10px;
+        background-color: #F6F4F7!important;
+
+        padding: 12px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease-in-out;
+    }
+    .form-control:focus {
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+        border-color: #28a745;
+    }
+
+    select.form-select option:hover {
+        background-color: #106e63 !important;
+        color: black !important;
+    }
+    select.form-select option:checked {
+        background-color: #106e63 !important; /* Dark green */
+        color: white !important;
+    }
+    a{
+        text-decoration: none!important;
+    }
+
+    .input-group-text {
+        background-color: #F6F4F7 !important;
+        border-right: none; /* Remove right border */
+        border-radius: 10px 0 0 10px; /* Right border-radius removed */
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+    }
+    .bottom-nav {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        padding: 15px;
+        background-color: #333;
+        border-radius: 20px 20px 0px 0px;
+        border-top: 2px solid #bcbcbc;
+        z-index: 1000; /* Ensure it stays on top */
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .header {
+        background-color: white;
+        padding: 10px 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .shadow-sm{
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3)!important;
+    }
+    .account-icon{
+        color:#106e63!important;
+    }
+    .form-check-input {
+        color: #106e63 !important;
+    }
+    .form-check-input:checked {
+        background-color: #106e63 !important;
+        border-color: #106e63 !important;
+    }
+    .form-check-input:active,
+    .form-check-input:focus {
+        border-color: #106e63 !important;
+        box-shadow: none !important; /* Focus outline ko hatane ke liye */
+    }
+    .form-switch .form-check-input:focus {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23008000'/%3e%3c/svg%3e")!important;
+    }
+    .accordion-button::after {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-plus' viewBox='0 0 16 16'%3E%3Cpath d='M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z'/%3E%3C/svg%3E");
+        transition: all 0.5s;
+    }
+    .accordion-button:not(.collapsed)::after {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-dash' viewBox='0 0 16 16'%3E%3Cpath d='M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z'/%3E%3C/svg%3E");
+    }
+    .accordion-button::after {
+        transition: all 0.5s;
+    }
+
+    /* Change background color for the open accordion heading */
+    .accordion-button:not(.collapsed) {
+        background-color: #FF9810!important;
+        color: black; /* Optional: Change text color */
+    }
+    .accordion-button:focus {
+        outline: none;
+        box-shadow: none;
+    }
+    .bg-warning{
+        background-color: #FF9810!important;
+        color: black; /* Optional: Change text color */
+    }
+
+    .text-color{
+        color: #e1f4f4!important;
+    }
+    .fs-40{
+        font-size: 40px !important;
+    }
+    .fs-20{
+        font-size: 20px!important;
+    }
+    .fs-12{
+        font-size: 12px!important;
+    }
+    .fs-13{
+        font-size: 13px!important;
+    }
+    .h-60{
+        height: 60px!important;
+    }
+    .input-opacity{
+        opacity: 0.6;
+    }
+    .btn:first-child:active{
+        background-color: #106e63!important;
+        color: #106e63!important;
+    }.btn:hover{
+         background-color: #106e63!important;
+
+     }
+    @keyframes zoomIn {
+        from {
+            transform: scale(0.5);
+            opacity: 0;
+        }
+        to {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+    .zoom-in {
+        animation: zoomIn 0.6s ease-out;
+    }
+    .bg-dark{
+        background-color: #333 !important;
+        color: #55d6a1 !important;
+    }
+    .bg-gradiant{
+        background: rgb(19,103,77)!important;
+        background: linear-gradient(59deg, rgba(19,103,77,1) 0%, rgba(85,214,161,1) 100%, rgba(188,252,168,1) 100%)!important;
+    }
+</style>

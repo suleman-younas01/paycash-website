@@ -1,0 +1,56 @@
+{% extends 'public/layout.twig' %}
+{% block content %}
+
+    {{ include('public/includes/bottomNav.twig') }}
+
+
+    <!-- Upload Bank Page -->
+    <div style="margin: 5rem 0 7rem 0 !important; position: relative;">
+        <div class="d-flex align-items-center pt-4 pb-1 fixed-top" style="background-color: #e0e0e0;">
+            <a href="/bankDetails">
+                <p class="fw-bold" style="color: #0e7bb2">
+                    <i class="bi bi-chevron-left"></i> Back
+                </p>
+            </a>
+        </div>
+        <form class="mx-3">
+            <div class="mb-3">
+                <select class="form-select form-control " id="selectBank"  required>
+                    <option selected disabled>Select Bank</option>
+                    <option value="1">Bank 1</option>
+                    <option value="2">Bank 2</option>
+                    <option value="3">Bank 3</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <!--            <label for="accountHolderName" class="form-label">Bank Account Holder Name</label>-->
+                <input type="text" class="form-control" name="accountHolderName" id="accountHolderName" placeholder="Enter bank account holder name" required>
+            </div>
+            <div class="mb-3">
+                <!--            <label for="accountNumber" class="form-label">Bank Account Number</label>-->
+                <input type="text" class="form-control" name="accountNumber" id="accountNumber" placeholder="Enter bank account number" required>
+            </div>
+            <div class="mb-3">
+                <!--            <label for="contactNumber" class="form-label">Contact Number</label>-->
+                <input type="tel" class="form-control" name="contactNumber" id="contactNumber" placeholder="Enter contact number" required>
+            </div>
+            <div class="mb-3">
+                <!--            <label for="ifscCode" class="form-label">IFSC Code</label>-->
+                <input type="text" class="form-control" name="ifscCode" id="ifscCode" placeholder="Enter IFSC Code" required>
+            </div>
+            <div class="mb-3">
+                <!--            <label for="branchName" class="form-label">Branch Name</label>-->
+                <input type="text" class="form-control" name="branchName" id="branchName" placeholder="Branch Name" required>
+            </div>
+            <div class="mb-3">
+                <!--            <label for="accountImageProof" class="form-label">Account Image Proof</label>-->
+                <input class="form-control" type="file" id="accountImageProof" accept="image/*" required>
+                <div class="form-text fw-bold">Account Image Proof(Upload a clear image of one of the following.)</div>
+            </div>
+            <a href="#">
+                <button type="submit" class="btn deposit-button w-50 text-color">Submit</button>
+            </a>
+        </form>
+
+    </div>
+{% endblock %}

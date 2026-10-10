@@ -1,0 +1,9 @@
+/vendor/
+**/env.php
+.idea/
+assets/cdp_api_key.json
+/uploads/
+
+# Local/server-generated files
+error_log
+.ftpquota

@@ -1,0 +1,81 @@
+{% extends 'public/layout.twig' %}
+{% block content %}
+    {{ include('public/includes/styles.twig') }}
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/notie/dist/notie.min.css">
+    <div class="container-fluid">
+        <div class="logo mb-5">
+            <img src="{{ env.APP_URL }}uploads/settings/{{ siteLogo }}" alt="PayCash Logo" class=" w-75">
+        </div>
+        <h1 class="mt-5 fw-bold fs-35" style="color: #000000;">Sign In</h1>
+        <p class="login-text mb-4">Add your info to Sign In</p>
+        <form id="loginForm">
+            <input id="csrf" type="hidden" value="{{ csrf }}" placeholder="Email" required>
+            <div class="mb-3">
+                <input type="text" class="form-control" id="email" name="email" placeholder="Enter your Email" >
+                <span id="emailErrorMessage"></span>
+            </div>
+            <div class="mb-3">
+                <input type="password" class="form-control" id="password" placeholder="Enter your Password" >
+                <span id="passwordErrorMessage"></span>
+            </div>
+
+
+            <button type="button" id="btn" class=" btn deposit-button w-75 text-color " onclick="do_login()">Log In</button>
+            <div id="ErrorMessage"></div>
+        </form>
+        <div class="text-center mt-3">
+            <span class="fs-17" style="color: #000000;">Forget Password? <a href="/forget-password" class="text-decoration-none fw-bold fs-15" style="color: #000000;">Click Here</a></span>
+            <br> <span class="fs-17" style="color: #000000;">Don't have an account?<a href="/signup" class="text-decoration-none fw-bold" style="color: #000000;"> SignUp</a></span>
+
+        </div>
+
+    </div>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/notie/4.3.1/notie.min.js" integrity="sha512-NHRCwRf2LnVSlLDejCA9oS3fG3/FLSQIPCjAWl3M7tVi5wszwr6FxkjotWnQDXLE+aLKcxRrzFDNEgXj9nvkPw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        function do_login() {
+            var email = $("#email").val();
+            var pass = $("#password").val();
+            var csrf_token = $("input[name=csrf]").val();
+            console.log(email);
+            if (email !== "") {
+            if (pass !== "") {
+                document.getElementById("btn").innerHTML = "Loading...";
+                $.ajax({
+                    type: 'post',
+                    url: '/login',
+                    data: {
+                        do_login: "do_login",
+                        email: email,
+                        password: pass,
+                        csrf: csrf_token,
+                    },
+                    success: function(response) {
+                        document.getElementById("btn").innerHTML = "Login";
+                        response = $.parseJSON(response);
+                        console.log(response['statusCode']);
+                        if (response['statusCode'] == "200") {
+                            window.location.href=response.path;
+                            notie.alert({type: 'success', text: 'You are logged in!!!', time: 5});
+                        } else if (response['statusCode'] == "202") {
+                            document.getElementById("btn").innerHTML = "Login";
+                            notie.alert({type: 'error', text: response['message'], time: 5});
+                        } else {
+                            document.getElementById("btn").innerHTML = "Login";
+                            notie.alert({type: 'error', text: response['message'], time: 5});
+                        }
+                    }
+                });
+            } else {
+                document.getElementById("btn").innerHTML = "Login";
+                notie.alert({type: 'error', text: 'Password is required.', time: 5});
+            }
+            } else {
+                document.getElementById("btn").innerHTML = "Login";
+                notie.alert({type: 'error', text: 'Email is required.', time: 5});
+
+            }
+            return false;
+        }
+    </script>
+{% endblock %}

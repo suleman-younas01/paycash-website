@@ -1,0 +1,21 @@
+
+
+{% extends 'public/layout.twig' %}
+{% block content %}
+
+    {{ include('public/includes/bottomNav.twig') }}
+
+    <!-- Privacy Policy Page -->
+    <div style="margin: 5rem 0 7rem 0 !important; position: relative;">
+        <div class="d-flex align-items-center pt-4 pb-1 fixed-top" style="background-color: #e0e0e0;">
+            <a href="/setting">
+                <p class="fw-bold" style="color: #0e7bb2">
+                    <i class="bi bi-chevron-left"></i> Account
+                </p>
+            </a>
+        </div>
+        <div class="container">
+            {{ privacy[0].content | raw }}
+        </div>
+    </div>
+{% endblock %}
