@@ -427,9 +427,9 @@
             <h6 class="text-gradient animation" data-animation="fadeInUp" data-animation-delay="0.3s" style="font-size: 20px;">Powerful tools for everyday money movement and global access</h6>
         </div>
 
-        <div class="row g-4 mb-5 justify-content-center">
+        <div class="row g-4 mb-5 justify-content-center align-items-stretch">
             <!-- Feature Cards -->
-            <div class="col-lg-4 col-md-6">
+            <div class="col-lg-4 col-md-6 d-flex">
                 <div class="glow-box">
                     <div class="icon-glow">💸</div>
                     <h4>Money Transfer</h4>
@@ -437,7 +437,7 @@
                 </div>
             </div>
 
-            <div class="col-lg-4 col-md-6">
+            <div class="col-lg-4 col-md-6 d-flex">
                 <div class="glow-box">
                     <div class="icon-glow">💳</div>
                     <h4>Debit Card</h4>
@@ -445,7 +445,7 @@
                 </div>
             </div>
 
-            <div class="col-lg-4 col-md-12">
+            <div class="col-lg-4 col-md-12 d-flex">
                 <div class="glow-box">
                     <div class="icon-glow">🌐</div>
                     <h4>Ecosystem Access</h4>
@@ -460,30 +460,35 @@
             </div>
         </div>
 
-        <!-- Services -->
-        <div id="services" class="text-center mb-4 mt-5">
+    </div>
+</section>
+
+<!-- SERVICES SECTION -->
+<section id="services" style="background: linear-gradient(135deg, #0d1013 0%, #0f1319 100%); padding: 80px 0;">
+    <div class="container">
+        <div class="text-center mb-5">
             <h2 class="section-title">Services</h2>
-            <p class="text-gradient animation" data-animation="fadeInUp" data-animation-delay="0.3s" style="font-size: 20px;">Everything you need in one powerful financial ecosystem</p>
+            <h6 class="text-gradient animation" data-animation="fadeInUp" data-animation-delay="0.3s" style="font-size: 20px;">Everything you need in one powerful financial ecosystem</h6>
         </div>
 
-        <div class="row g-3 text-center">
-            <div class="col-md-2 col-sm-4 col-6">
-                <div class="service-tile">🔄<br><span>Money Transfer</span></div>
+        <div class="row g-3 text-center align-items-stretch">
+            <div class="col-md-2 col-sm-4 col-6 d-flex">
+                <div class="service-tile w-100">🔄<br><span>Money Transfer</span></div>
             </div>
-            <div class="col-md-2 col-sm-4 col-6">
-                <div class="service-tile">👜<br><span>Digital Wallet</span></div>
+            <div class="col-md-2 col-sm-4 col-6 d-flex">
+                <div class="service-tile w-100">👜<br><span>Digital Wallet</span></div>
             </div>
-            <div class="col-md-2 col-sm-4 col-6">
-                <div class="service-tile">🛒<br><span>Merchant Services</span></div>
+            <div class="col-md-2 col-sm-4 col-6 d-flex">
+                <div class="service-tile w-100">🛒<br><span>Merchant Services</span></div>
             </div>
-            <div class="col-md-2 col-sm-4 col-6">
-                <div class="service-tile">🧾<br><span>Bill Payment</span></div>
+            <div class="col-md-2 col-sm-4 col-6 d-flex">
+                <div class="service-tile w-100">🧾<br><span>Bill Payment</span></div>
             </div>
-            <div class="col-md-2 col-sm-4 col-6">
-                <div class="service-tile">🔁<br><span>Decentralized Exchange (DEX)</span></div>
+            <div class="col-md-2 col-sm-4 col-6 d-flex">
+                <div class="service-tile w-100">🔁<br><span>Decentralized Exchange (DEX)</span></div>
             </div>
-            <div class="col-md-2 col-sm-4 col-6">
-                <div class="service-tile">🤝<br><span>DeFi Peer Lending</span></div>
+            <div class="col-md-2 col-sm-4 col-6 d-flex">
+                <div class="service-tile w-100">🤝<br><span>DeFi Peer Lending</span></div>
             </div>
         </div>
     </div>
@@ -503,6 +508,7 @@
     .glow-box {
         background: #111;
         padding: 30px;
+        height: 100%;
         border-radius: 16px;
         text-align: center;
         box-shadow: 0 0 20px rgba(0, 255, 204, 0.05);
@@ -542,19 +548,32 @@
     }
 
     .service-tile {
-        background: #111;
+        background: linear-gradient(145deg, #183236 0%, #102326 100%);
+        border: 1px solid rgba(0, 255, 204, 0.18);
         border-radius: 12px;
+        min-height: 112px;
+        height: 100%;
         padding: 20px 10px;
         color: #ffffff;
         font-size: 22px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        box-shadow: 0 8px 22px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.03);
         transition: all 0.3s;
+    }
+
+    .service-tile:hover {
+        background: linear-gradient(145deg, #1d4144 0%, #123033 100%);
+        border-color: rgba(0, 255, 204, 0.4);
+        transform: translateY(-3px);
     }
 
 
 </style>
 
 <!-- TEAM SECTION -->
-<section id="team" class="small_pt small_pb" style="background: linear-gradient(135deg, #0d1013 0%, #0f1319 100%);">
+<section id="team" class="small_pt small_pb" style="background: #000000;">
     <div class="container">
         <div class="row text-center">
             <div class="col-lg-8 col-md-12 offset-lg-2">
@@ -570,7 +589,7 @@
 </section>
 
 <!-- SECTION MOBILE APP -->
-<section id="mobileapp" style="background: linear-gradient(135deg, #0d1013 0%, #0f1319 100%); " data-z-index="1" data-parallax="scroll" data-image-src="{{ env.APP_URL }}assets/images/app_bg.png">
+<section id="mobileapp" style="background: linear-gradient(135deg, #07191b 0%, #0d2a2b 100%); " data-z-index="1" data-parallax="scroll" data-image-src="{{ env.APP_URL }}assets/images/app_bg.png">
     <div class="container">
         <div class="row align-items-center">
             <!-- Left Content -->
