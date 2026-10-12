@@ -240,7 +240,7 @@
             <div class="col-lg-4 col-md-6 col-sm-12 d-flex">
                 <div class="box_wrap text-center animation w-100 p-4" data-animation="fadeInUp" data-animation-delay="0.6s" style="background-color: #111; border-radius: 12px; min-height: 280px;">
                     <h4>Step 01: On-Ramp Your Cash</h4>
-                    <img src="https://www.paycashico.com/images/step-1.png" alt="Fiat On-Ramp" class="mb-3">
+                    <img src="{{ env.APP_URL }}assets/home_page/images/service_icon2.png" alt="Fiat On-Ramp" class="mb-3 how-it-works-icon">
 
                     <p>Deposit money using a <strong>debit/credit card</strong>, bank account, or a supported agent. Your cash enters our revolutionary network.</p>
                 </div>
@@ -249,7 +249,7 @@
             <div class="col-lg-4 col-md-4 col-sm-12 d-flex">
                 <div class="box_wrap text-center animation w-100 p-4" data-animation="fadeInUp" data-animation-delay="0.8s" style="background-color: #111; border-radius: 12px; min-height: 280px;">
                     <h4>Step 02: Blockchain Conversion</h4>
-                    <img src="https://www.paycashico.com/images/step-2.png" alt="Crypto Conversion" class="mb-3">
+                    <img src="{{ env.APP_URL }}assets/home_page/images/service_icon1.png" alt="Blockchain Conversion" class="mb-3 how-it-works-icon">
 
                     <p>Your funds are instantly converted into cryptocurrency through the <strong>Stellar network</strong>, enabling fast, secure, and low-cost transfers.</p>
                 </div>
@@ -258,7 +258,7 @@
             <div class="col-lg-4 col-md-4 col-sm-12 d-flex">
                 <div class="box_wrap text-center animation w-100 p-4" data-animation="fadeInUp" data-animation-delay="1s" style="background-color: #111; border-radius: 12px; min-height: 280px;">
                     <h4>Step 03: Total Financial Freedom</h4>
-                    <img src="https://www.paycashico.com/images/step-3.png" alt="Global Settlement" class="mb-3">
+                    <img src="{{ env.APP_URL }}assets/home_page/images/service_icon3.png" alt="Global Financial Access" class="mb-3 how-it-works-icon">
 
                     <p>Withdraw as cash, pay bills, shop anywhere with your linked Visa® debit card, send to another PayCash user, buy other cryptocurrencies, participate in peer-to-peer lending, and more.</p>
                 </div>
@@ -545,6 +545,15 @@
         content: "✔";
         margin-right: 8px;
         color: #00ffc8;
+    }
+
+    .how-it-works-icon {
+        display: block;
+        width: 64px;
+        height: 64px;
+        object-fit: contain;
+        margin: 8px auto 20px;
+        filter: drop-shadow(0 0 10px rgba(0, 255, 204, 0.2));
     }
 
     .service-tile {
