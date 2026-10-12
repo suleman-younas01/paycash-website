@@ -471,24 +471,24 @@
             <h6 class="text-gradient animation" data-animation="fadeInUp" data-animation-delay="0.3s" style="font-size: 20px;">Everything you need in one powerful financial ecosystem</h6>
         </div>
 
-        <div class="row g-3 text-center align-items-stretch">
+        <div class="row g-3 text-center align-items-stretch service-grid">
             <div class="col-md-2 col-sm-4 col-6 d-flex">
-                <div class="service-tile w-100">🔄<br><span>Money Transfer</span></div>
+                <div class="service-tile w-100"><span class="service-icon" aria-hidden="true">🔄</span><span class="service-label">Money Transfer</span></div>
             </div>
             <div class="col-md-2 col-sm-4 col-6 d-flex">
-                <div class="service-tile w-100">👜<br><span>Digital Wallet</span></div>
+                <div class="service-tile w-100"><span class="service-icon" aria-hidden="true">👜</span><span class="service-label">Digital Wallet</span></div>
             </div>
             <div class="col-md-2 col-sm-4 col-6 d-flex">
-                <div class="service-tile w-100">🛒<br><span>Merchant Services</span></div>
+                <div class="service-tile w-100"><span class="service-icon" aria-hidden="true">🛒</span><span class="service-label">Merchant Services</span></div>
             </div>
             <div class="col-md-2 col-sm-4 col-6 d-flex">
-                <div class="service-tile w-100">🧾<br><span>Bill Payment</span></div>
+                <div class="service-tile w-100"><span class="service-icon" aria-hidden="true">🧾</span><span class="service-label">Bill Payment</span></div>
             </div>
             <div class="col-md-2 col-sm-4 col-6 d-flex">
-                <div class="service-tile w-100">🔁<br><span>Decentralized Exchange (DEX)</span></div>
+                <div class="service-tile w-100"><span class="service-icon" aria-hidden="true">🔁</span><span class="service-label">Decentralized Exchange <small>(DEX)</small></span></div>
             </div>
             <div class="col-md-2 col-sm-4 col-6 d-flex">
-                <div class="service-tile w-100">🤝<br><span>DeFi Peer Lending</span></div>
+                <div class="service-tile w-100"><span class="service-icon" aria-hidden="true">🤝</span><span class="service-label">DeFi Peer Lending</span></div>
             </div>
         </div>
     </div>
@@ -560,16 +560,46 @@
         background: linear-gradient(145deg, #183236 0%, #102326 100%);
         border: 1px solid rgba(0, 255, 204, 0.18);
         border-radius: 12px;
-        min-height: 112px;
-        height: 100%;
-        padding: 20px 10px;
+        min-height: 168px;
+        height: 168px;
+        padding: 22px 14px;
         color: #ffffff;
-        font-size: 22px;
         display: flex;
         flex-direction: column;
         justify-content: center;
+        align-items: center;
         box-shadow: 0 8px 22px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.03);
         transition: all 0.3s;
+    }
+
+    .service-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 34px;
+        margin-bottom: 14px;
+        font-size: 28px;
+        line-height: 1;
+    }
+
+    .service-label {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 46px;
+        max-width: 145px;
+        color: #f5f7f7;
+        font-size: 17px;
+        font-weight: 600;
+        line-height: 1.35;
+        letter-spacing: 0.01em;
+    }
+
+    .service-label small {
+        display: block;
+        font-size: 0.9em;
+        font-weight: 600;
     }
 
     .service-tile:hover {
